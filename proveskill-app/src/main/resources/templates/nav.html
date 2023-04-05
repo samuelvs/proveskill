@@ -1,0 +1,18 @@
+<div id="nav" class="nav" th:fragment="menu">
+    <div class="item-container">
+        <div class="menu-box">
+            <span>ADMIN</span>
+        </div>
+        
+        <div class="menu-box" th:classappend="${route} == 'users' ? 'active'" onclick="navigate('users')">
+            <span>Usuários</span>
+        </div>
+
+        <div class="menu-box" th:classappend="${route} == 'questions' ? 'active'" onclick="navigate('questions')">
+            <span>Questões</span>
+        </div>
+    </div>
+
+    <div class="nav-footer">
+    </div>
+</div>
