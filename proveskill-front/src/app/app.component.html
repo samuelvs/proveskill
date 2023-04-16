@@ -1,0 +1,39 @@
+<mat-toolbar class="mat-elevation-z8" color="primary">
+  <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">
+          menu
+      </mat-icon>
+      <mat-icon *ngIf="sidenav.opened">
+          close
+      </mat-icon>
+  </button>
+  PROVESKILL
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+    <a
+      *ngFor="let item of menu"
+      class="menu-button"
+      [routerLink]="item.link"
+      [class.navigation__link--current]="router.url === item.link"
+    >
+      <mat-icon>{{item.icon}}</mat-icon>
+      <span>{{item.name}}</span>
+    </a>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button">
+      <mat-icon>help</mat-icon>
+      <span>Help</span>
+    </button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+      <div class="content mat-elevation-z8">
+        <router-outlet></router-outlet>
+        <router-outlet name="section1"></router-outlet>
+      </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

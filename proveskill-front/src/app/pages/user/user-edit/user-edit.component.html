@@ -1,0 +1,40 @@
+<div class="title">
+  <button mat-mini-fab color="primary" (click)="back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h2>{{title}}</h2>
+</div>
+<mat-divider></mat-divider>
+
+<form [formGroup]="formUser">
+  <div class="form-content">
+    <div class="form-content--item">
+      <label for="nome">Nome:</label>
+      <input type="text" class="form-control" name="name" id="nome" formControlName="name">
+    </div>
+    <div class="form-content--item">
+      <label for="email">Email:</label>
+      <input type="text" class="form-control" name="email" formControlName="email">
+    </div>
+  </div>
+
+  <div class="form-content">
+    <div class="form-content--item">
+      <label for="school">Escola:</label>
+      <input type="text" class="form-control" name="school" formControlName="school">
+    </div>
+
+    <div class="form-content--item">
+      <label for="type">Privilegio:</label>
+      <select class="form-control" name="type" formControlName="type">
+        <option value="1">Estudante</option>
+        <option value="2">Docente</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="submit" mat-raised-button color="primary">Salvar</button>
+    <button (click)="back()" mat-raised-button color="warn">Cancelar</button>
+  </div>
+</form>

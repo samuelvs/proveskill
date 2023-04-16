@@ -1,0 +1,52 @@
+:host {
+  color: #303030;
+}
+
+.title {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+mat-divider {
+  background-color: #303030;
+}
+
+form {
+  align-items: center;
+  margin: 10px 25px;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+
+.form-content {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+
+  &--item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .form-control {
+    height: 30px;
+    width: 33vw;
+    border: 0px;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+}
+
+.actions {
+  gap: 16px;
+  display: flex;
+  margin: 20px;
+}
