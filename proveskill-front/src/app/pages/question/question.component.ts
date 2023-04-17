@@ -20,26 +20,36 @@ export class QuestionComponent implements OnInit {
     },
     {
       id: 2,
-      question: "Quantos paus se faz uma canoa",
+      question: "BLA BLA BLAS",
       difficulty: 2,
       tags: ["sdf", "ewqre"],
       type: 1
     },
-
   ];
+
+  hideToggle = false;
+  questionToEdit = {};
+
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  createQuestion(){
-    this.router.navigate(['/questao/editar']);
+  toggleQuestion(){
+    this.hideToggle = !this.hideToggle;
+  }
+
+  edit(question) {
+    this.hideToggle = true;
+    this.questionToEdit = { ...question };
+  }
+
+  clear() {
+    this.questionToEdit = {}
   }
 
   deleteQuestion(id) {
 
   }
-
-
 }

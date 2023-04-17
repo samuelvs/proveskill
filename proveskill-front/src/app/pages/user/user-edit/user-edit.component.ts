@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -11,29 +11,17 @@ import { User } from '../user';
 })
 export class UserEditComponent implements OnInit {
 
-  title = 'Criar usuário';
+  @Input() user?;
+  @Output() clear = new EventEmitter();
+
   formUser: FormGroup;
-  private routeSub: Subscription;
 
   constructor(private router: Router, private actRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.routeSub = this.actRoute.params.subscribe(params => {
-      if(params['id']) {
-        this.title = 'Editar usuário';
-        this.createForm({name: 'asdf', email: 'qerq', school: 'kafd', type: 1});
-      } else {
-        this.createForm(new User);
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.routeSub.unsubscribe();
-  }
-
-  createForm(user: User) {
+    const user = new User;
     this.formUser = new FormGroup({
+      id: new FormControl(user.id, [Validators.required]),
       name: new FormControl(user.name, [Validators.required]),
       email: new FormControl(user.email, [Validators.required, Validators.email]),
       school: new FormControl(user.school, [Validators.required]),
@@ -41,7 +29,14 @@ export class UserEditComponent implements OnInit {
     });
   }
 
-  back() {
-    this.router.navigate(['usuario']);
+  ngOnChanges(change) {
+    if (Object.keys(change.user.currentValue).length > 0) {
+      this.formUser.patchValue(change.user.currentValue);
+    }
+  }
+
+  clearUser() {
+    this.formUser.reset();
+    this.clear.emit();
   }
 }

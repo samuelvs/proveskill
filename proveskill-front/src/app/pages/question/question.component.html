@@ -1,8 +1,16 @@
 <div class="title">
-  <h2>Questões</h2>
-  <button mat-mini-fab color="primary" (click)="createQuestion()">
-    <mat-icon>add</mat-icon>
-  </button>
+  <div>
+    <h2>Questões</h2>
+    <button mat-mini-fab color="primary" (click)="toggleQuestion()">
+      <mat-icon>{{hideToggle ? 'remove' : 'add'}}</mat-icon>
+    </button>
+  </div>
+
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="hideToggle">
+      <app-question-edit [question]="questionToEdit" (clear)="clear()"></app-question-edit>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
 <mat-divider></mat-divider>
 <div class="question-container">
@@ -21,7 +29,7 @@
       </span>
       <p>{{questionTypes[question.type]}}</p>
       <span class="actions">
-        <a href="/questao/editar/{{question.id}}">
+        <a (click)="edit(question)">
           <mat-icon>edit</mat-icon>
         </a>
         <a (click)="deleteQuestion(question.id)">

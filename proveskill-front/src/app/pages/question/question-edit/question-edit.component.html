@@ -1,20 +1,12 @@
-<div class="title">
-  <button mat-mini-fab color="primary" (click)="back()">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-  <h2>{{title}}</h2>
-</div>
-<mat-divider></mat-divider>
-
 <form [formGroup]="formQuestion">
   <div class="form-content">
     <div class="form-content--item">
-      <label for="nome">Questão:</label>
+      <label for="question">Questão:</label>
       <input type="text" class="form-control" name="question" formControlName="question">
     </div>
     <div class="form-content--item">
-      <label for="email">Dificuldade:</label>
-      <select class="form-control" name="type" formControlName="type">
+      <label for="difficulty">Dificuldade:</label>
+      <select class="form-control" name="difficulty" formControlName="difficulty">
         <option value="1">Muito fácil</option>
         <option value="2">Fácil</option>
         <option value="3">Médio</option>
@@ -26,7 +18,7 @@
 
   <div class="form-content">
     <div class="form-content--item">
-      <label for="school">Tags:</label>
+      <label for="tags">Tags:</label>
       <input type="text" class="form-control" name="tags" formControlName="tags">
     </div>
 
@@ -41,8 +33,58 @@
     </div>
   </div>
 
+  <div *ngIf="formQuestion.controls['type'].value && formQuestion.controls['type'].value != 1" class="form-content alternatives-conteiner">
+    <div class="alternatives-content">
+      <label for="alternative">Alternativas:</label>
+      <span class="alternatives-content--item">
+        <input class="form-control" type="text" name="alternative" id="alternative">
+        <button color="primary" (click)="addAlternative()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </span>
+    </div>
+
+    <div *ngIf="formQuestion.controls['type'].value == 2" class="options">
+      <div *ngFor="let item of alternatives; let i = index">
+        <mat-radio-group formControlName="answer">
+          <mat-radio-button
+            color="primary"
+            name="alternativesItems"
+            [value]="i"
+            [checked]="formQuestion.controls.answer.value === i">{{item}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <span (click)="removeAlternative(i)">X</span>
+      </div>
+    </div>
+    <div *ngIf="formQuestion.controls['type'].value == 3" class="options">
+      <div *ngFor="let item of alternatives; let i = index">
+        <mat-checkbox (change)="changeBox(i)">
+          {{item}}
+        </mat-checkbox>
+        <span (click)="removeAlternative(i)">X</span>
+      </div>
+    </div>
+    <div *ngIf="formQuestion.controls['type'].value == 4">
+      <mat-radio-group formControlName="answer">
+        <mat-radio-button
+          color="primary"
+          name="alternativesItems"
+          [value]="1"
+          [checked]="formQuestion.controls.answer.value === 1">Verdadeiro
+        </mat-radio-button>
+        <mat-radio-button
+          color="primary"
+          name="alternativesItems"
+          [value]="0"
+          [checked]="formQuestion.controls.answer.value === 0">Falso
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
   <div class="actions">
     <button type="submit" mat-raised-button color="primary">Salvar</button>
-    <button (click)="back()" mat-raised-button color="warn">Cancelar</button>
+    <button (click)="clearQuestion()" mat-raised-button color="warn">Limpar</button>
   </div>
 </form>

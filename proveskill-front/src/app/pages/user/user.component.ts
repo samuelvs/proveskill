@@ -19,20 +19,31 @@ export class UserComponent implements OnInit {
     },
     {
       id: 2,
-      name: "João da Silva",
+      name: "Gabriel Ferr",
       email: "joao@gmail.com",
       school: "Instituto Federal de Alagoas",
       type: 1
     }
   ];
+  hideToggle = false;
+  userToEdit = {};
 
   constructor(public router: Router){}
 
   ngOnInit(): void {
   }
 
-  createUser(){
-    this.router.navigate(['/usuario/editar']);
+  toggleUser(){
+    this.hideToggle = !this.hideToggle;
+  }
+
+  edit(user) {
+    this.hideToggle = true;
+    this.userToEdit = { ...user };
+  }
+
+  clearUser() {
+    this.userToEdit = {}
   }
 
   deleteUser(id) {

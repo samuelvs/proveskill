@@ -1,8 +1,16 @@
 <div class="title">
-  <h2>Usuários</h2>
-  <button mat-mini-fab color="primary" (click)="createUser()">
-    <mat-icon>add</mat-icon>
-  </button>
+  <div>
+    <h2>Usuários</h2>
+    <button mat-mini-fab color="primary" (click)="toggleUser()">
+      <mat-icon>{{hideToggle ? 'remove' : 'add'}}</mat-icon>
+    </button>
+  </div>
+
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="hideToggle">
+        <app-user-edit [user]="userToEdit" (clear)="clearUser()"></app-user-edit>
+      </mat-expansion-panel>
+    </mat-accordion>
 </div>
 <mat-divider></mat-divider>
 <div class="user-container">
@@ -19,7 +27,7 @@
       <p>{{user.school}}</p>
       <p>{{userTypes[user.type]}}</p>
       <span class="actions">
-        <a href="/usuario/editar/{{user.id}}">
+        <a (click)="edit(user)">
           <mat-icon>edit</mat-icon>
         </a>
         <a (click)="deleteUser(user.id)">

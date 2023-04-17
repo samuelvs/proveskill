@@ -4,4 +4,6 @@ export class Question {
   difficulty: number = null;
   tags: string[] = [''];
   type: number = null;
+  alternatives?: string[] = [''];
+  answer?: any;
 }
