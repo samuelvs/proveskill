@@ -26,41 +26,25 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public String getAllQuestions(Model model) {
-        log.info("QuestionController - getAllQuestions: Get all questions");
+    public ResponseEntity<List<QuestionDto>> getAllQuestions(Model model) {
         List<QuestionDto> questions = this.questionService.findAll();
-        model.addAttribute("route", "questions");
-        model.addAttribute("questions", questions);
-        return "questions/all";
+        return ResponseEntity.ok(questions);
     }
 
     @GetMapping("/questions/{id}")
-    public String getQuestionById(@PathVariable("id") long id, Model model) {
-        log.info("QuestionController - getQuestionById: Get question with id: {}", id);
-        QuestionDto questionDto = this.questionService.findById(id);
-        model.addAttribute("question", questionDto);
-        model.addAttribute("route", "questions");
-        return "questions/new";
-    }
-
-    @GetMapping("/questions/new")
-    public String newQuestion(Model model) {
-        log.info("QuestionController - newQuestion: New question");
-        model.addAttribute("route", "questions");
-        return "questions/new";
+    public ResponseEntity<QuestionDto> getQuestionById(@PathVariable("id") long id, Model model) {
+        QuestionDto question = this.questionService.findById(id);
+        return ResponseEntity.ok(question);
     }
 
     @PutMapping(value = PathConstants.QUESTIONS, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Object> saveQuestion(@RequestBody QuestionDto questionDto, UriComponentsBuilder uriComponentsBuilder) throws Exception {
-        log.info("QuestionController - createQuestion: Create question");
+    public ResponseEntity<Object> saveQuestion(@RequestBody QuestionDto questionDto) throws Exception {
         QuestionDto createdQuestion = this.questionService.create(questionDto);
-        URI uri = uriComponentsBuilder.path("questions/{id}").buildAndExpand(createdQuestion.getId()).toUri();
-        return ResponseEntity.created(uri).body(createdQuestion);
+        return ResponseEntity.ok(createdQuestion);
     }
 
     @DeleteMapping(value = PathConstants.QUESTIONS + "/{id}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable("id") long id) {
-        log.info("QuestionController - deleteQuestion: Delete question with id: {}", id);
         this.questionService.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -27,14 +27,10 @@ public class UserDto {
     private String email;
 
     @NotNull
-    @Positive
-    private Long phone;
-
-    @NotNull
     @NotEmpty
     private String school;
 
     @NotNull
     @Positive
-    private Long userType;
+    private Long type;
 }

@@ -8,7 +8,11 @@
 
     <mat-accordion>
       <mat-expansion-panel [expanded]="hideToggle">
-        <app-user-edit [user]="userToEdit" (clear)="clearUser()"></app-user-edit>
+        <app-user-edit
+          [user]="userToEdit"
+          (clear)="clearUser()"
+          (submit)="loadUsers()"
+        ></app-user-edit>
       </mat-expansion-panel>
     </mat-accordion>
 </div>

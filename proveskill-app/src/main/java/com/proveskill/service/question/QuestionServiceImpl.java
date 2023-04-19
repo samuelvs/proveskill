@@ -81,8 +81,7 @@ public class QuestionServiceImpl implements QuestionService {
                     UserEntity.builder()
                             .name("ADMIN")
                             .email("admin@proveskill.com")
-                            .userType(3L)
-                            .phone(123456789L)
+                            .type(3L)
                             .build()
             );
         }

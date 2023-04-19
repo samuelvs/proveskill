@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../user';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -13,10 +14,11 @@ export class UserEditComponent implements OnInit {
 
   @Input() user?;
   @Output() clear = new EventEmitter();
+  @Output() submit = new EventEmitter();
 
   formUser: FormGroup;
 
-  constructor(private router: Router, private actRoute: ActivatedRoute) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     const user = new User;
@@ -38,5 +40,12 @@ export class UserEditComponent implements OnInit {
   clearUser() {
     this.formUser.reset();
     this.clear.emit();
+  }
+
+  save() {
+    this.userService.putUsers(this.formUser.value).subscribe(res => {
+      this.formUser.reset();
+      this.submit.emit();
+    });
   }
 }

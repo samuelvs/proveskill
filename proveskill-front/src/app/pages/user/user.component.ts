@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -9,28 +10,20 @@ import { Router } from '@angular/router';
 export class UserComponent implements OnInit {
 
   userTypes: string[] = ["Estudant", "Professor"];
-  users = [
-    {
-      id: 1,
-      name: "João da Silva",
-      email: "joao@gmail.com",
-      school: "Instituto Federal de Alagoas",
-      type: 1
-    },
-    {
-      id: 2,
-      name: "Gabriel Ferr",
-      email: "joao@gmail.com",
-      school: "Instituto Federal de Alagoas",
-      type: 1
-    }
-  ];
+  users = [];
   hideToggle = false;
   userToEdit = {};
 
-  constructor(public router: Router){}
+  constructor(private userService: UserService){}
 
   ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.userService.getUsers().subscribe((data: any) => {
+      this.users = data;
+    });
   }
 
   toggleUser(){

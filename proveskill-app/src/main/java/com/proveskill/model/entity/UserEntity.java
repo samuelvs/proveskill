@@ -24,9 +24,7 @@ public class UserEntity {
 
     private String email;
 
-    private Long phone;
-
     private String school;
 
-    private Long userType;
+    private Long type;
 }

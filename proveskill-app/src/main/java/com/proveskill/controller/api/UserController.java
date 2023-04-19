@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Collection;
 
 @Controller
 @Slf4j
@@ -27,40 +28,25 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String getAllUsers(Model model) {
-        log.info("UserController - getAllUsers: Get all users");
+    public ResponseEntity<List<UserDto>> getAllUsers(Model model) {
         List<UserDto> users = this.userService.findAll();
-        model.addAttribute("users", users);
-        model.addAttribute("route", "users");
-        return "users/all";
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/users/{id}")
-    public String getUserById(@PathVariable("id") long id, Model model) {
-        log.info("UserController - getUser: Get user with id: {}", id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") long id, Model model) {
         UserDto user = this.userService.findById(id);
-        model.addAttribute("user", user);
-        model.addAttribute("route", "users");
-        return "users/new";
-    }
-
-    @GetMapping("/users/new")
-    public String newUser(Model model) {
-        model.addAttribute("route", "users");
-        return "users/new";
+        return ResponseEntity.ok(user);
     }
 
     @PutMapping(value = PathConstants.USERS, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserDto userDto, UriComponentsBuilder uriComponentsBuilder) throws Exception {
-        log.info("UserController - createUser: Create user: {}", userDto);
+    public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserDto userDto) throws Exception {
         UserDto createdUser = this.userService.create(userDto);
-        URI uri = uriComponentsBuilder.path("users/{id}").buildAndExpand(createdUser.getId()).toUri();
-        return ResponseEntity.created(uri).body(createdUser);
+        return ResponseEntity.ok(createdUser);
     }
 
     @DeleteMapping(value = PathConstants.USERS + "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
-        log.info("UserController - deleteUser: Delete user with id: {}", id);
         this.userService.delete(id);
         return ResponseEntity.noContent().build();
     }

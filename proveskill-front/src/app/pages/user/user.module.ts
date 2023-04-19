@@ -13,11 +13,12 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { UserService } from 'src/services/user.service';
 
 @NgModule({
   declarations: [
     UserComponent,
-    UserEditComponent
+    UserEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,8 +33,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatExpansionModule
+    MatExpansionModule,
+
   ],
-  providers: [],
+  providers: [UserService],
 })
 export class UserModule { }

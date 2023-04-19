@@ -16,6 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { UserModule } from './pages/user/user.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuestionModule } from './pages/question/question.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { QuestionModule } from './pages/question/question.module';
     ReactiveFormsModule,
     UserModule,
     QuestionModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
