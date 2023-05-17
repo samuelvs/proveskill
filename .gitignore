@@ -44,7 +44,7 @@ static/
 /bazel-out
 
 # dependencies
-/node_modules
+front/node_modules/*
 
 # profiling files
 chrome-profiler-events*.json

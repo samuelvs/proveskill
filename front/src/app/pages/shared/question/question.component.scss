@@ -1,0 +1,54 @@
+:host {
+  color: #303030;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mat-expansion-panel {
+    background-color: #f0f0f0 !important;
+    box-shadow: none;
+  }
+}
+
+mat-divider {
+  background-color: #303030;
+}
+
+.question-container {
+  margin: 16px 16px;
+
+  .column {
+    display: flex;
+    font-weight: 800;
+
+    p {
+      flex: 1;
+    }
+  }
+
+  .row {
+    display: flex;
+    margin-bottom: 12px;
+
+    p, .actions, .tags {
+      flex: 1;
+      margin: 0px;
+    }
+
+    .actions {
+      a {
+        color: #7b1fa2;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+  }
+}

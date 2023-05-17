@@ -1,0 +1,38 @@
+import { Component, ViewChild } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+
+@Component({
+  selector: 'student',
+  templateUrl: './student.component.html',
+  styleUrls: ['./student.component.scss']
+})
+
+export class StudentComponent {
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+
+  title = 'ProveSkill';
+  public menu = [
+    { name: 'Exames', link: '/estudante/exames', icon: 'task' },
+  ];
+  constructor(private observer: BreakpointObserver, public router: Router, private authService: AuthService) {}
+
+  ngAfterViewInit() {
+    this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
+      if (res.matches) {
+        this.sidenav.mode = 'over';
+        this.sidenav.close();
+      } else {
+        this.sidenav.mode = 'side';
+        this.sidenav.open();
+      }
+    });
+  }
+
+  logout() {
+    this.authService.doLogout();
+  }
+}

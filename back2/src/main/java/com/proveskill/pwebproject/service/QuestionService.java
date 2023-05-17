@@ -1,0 +1,90 @@
+package com.proveskill.pwebproject.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import com.proveskill.pwebproject.model.Question;
+import com.proveskill.pwebproject.model.User;
+import com.proveskill.pwebproject.repository.QuestionRepository;
+import com.proveskill.pwebproject.user.Role;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class QuestionService {
+
+    private final QuestionRepository questionRepository;
+
+    @Autowired
+    public QuestionService(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
+    }
+
+    public Question create(Question question) throws Exception {
+        try {
+            if(question.getId() != null) {
+                Question questionFound = this.questionRepository.findById(question.getId()).orElseThrow(
+                        () -> new Exception("QuestionServiceImpl - create/update: Question not found")
+                );
+                questionFound.setAlternatives(question.getAlternatives());
+                questionFound.setAnswer(question.getAnswer());
+                questionFound.setLevel(question.getLevel());
+                questionFound.setName(question.getName());
+                questionFound.setTags(question.getTags());
+                questionFound.setType(question.getType());
+                questionFound.setUpdatedAt(LocalDateTime.now());
+                return this.questionRepository.saveAndFlush(questionFound);
+            }
+
+            question.setCreatedAt(LocalDateTime.now());
+            question.setUpdatedAt(LocalDateTime.now());
+            return this.questionRepository.save(question);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("QuestionServiceImpl - create: Error when create question: {}", e);
+        }
+    }
+
+    public void delete(Integer id) {
+        try {
+            Optional<Question> questionEntity = this.questionRepository.findById(id);
+            if(questionEntity.isPresent()) {
+                this.questionRepository.delete(questionEntity.get());
+            } else {
+                throw new Exception("QuestionServiceImpl - delete: Question not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("QuestionServiceImpl - delete: Error when delete question: {}", e);
+        }
+    }
+
+    public List<Question> findAll() {
+        List<Question> questionEntities = this.questionRepository.findAll();
+        return questionEntities.stream().map(this::formatQuestion).toList();
+    }
+
+    public Question findById(Integer id) {
+        return this.questionRepository.findById(id).map(this::formatQuestion).orElseThrow(
+                () -> new RuntimeException("QuestionServiceImpl - findById: Question not found")
+        );
+    }
+
+    private Question formatQuestion(Question question) {
+        // if (question.getUser() == null) {
+        //     question.setUser(
+        //             User.builder()
+        //                     .name("ADMIN")
+        //                     .email("admin@proveskill.com")
+        //                     .role(Role.ADMIN)
+        //                     .build()
+        //     );
+        // }
+        question.setUser(null);
+        return question;
+    }
+}

@@ -1,0 +1,39 @@
+<div class="title">
+  <div>
+    <h2>Questões</h2>
+    <button mat-mini-fab color="primary" (click)="toggleQuestion()">
+      <mat-icon>{{hideToggle ? 'remove' : 'add'}}</mat-icon>
+    </button>
+  </div>
+
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="hideToggle">
+      <app-question-edit [question]="questionToEdit" (clear)="clear()" (submit)="loadQuestions()"></app-question-edit>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<div class="question-container">
+  <span class="column">
+    <p>Questão</p>
+    <p>Dificuldade</p>
+    <p>Tags</p>
+    <p>Resposta</p>
+    <p>Ações</p>
+  </span>
+  <div class="question-container--item row" *ngFor="let question of questions">
+      <p>{{question.name}}</p>
+      <p>{{difficultyTypes[question.level]}}</p>
+      <span class="tags">
+        <p *ngFor="let tag of question.tags">{{tag}}</p>
+      </span>
+      <p>{{questionTypes[question.type]}}</p>
+      <span class="actions">
+        <a (click)="edit(question)">
+          <mat-icon>edit</mat-icon>
+        </a>
+        <a (click)="deleteQuestion(question.id)">
+          <mat-icon>delete</mat-icon>
+        </a>
+      </span>
+  </div>
+</div>

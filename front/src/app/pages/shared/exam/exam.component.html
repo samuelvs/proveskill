@@ -1,0 +1,39 @@
+<div class="title">
+  <div>
+    <h2>Exames</h2>
+    <button mat-mini-fab color="primary" (click)="toggleExam()">
+      <mat-icon>{{hideToggle ? 'remove' : 'add'}}</mat-icon>
+    </button>
+  </div>
+
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="hideToggle">
+      <app-exam-edit [exam]="examToEdit" (clear)="clear()" (submit)="loadExams()"></app-exam-edit>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<div class="exam-container">
+  <span class="column">
+    <p>Nome</p>
+    <p>Qtd de questões</p>
+    <p>Duração</p>
+    <p>Inicio</p>
+    <p>Fim</p>
+    <p>Ações</p>
+  </span>
+  <div class="exam-container--item row" *ngFor="let exam of exams">
+      <p>{{ exam.title }}</p>
+      <p>{{ getQuestionsQuantity(exam.questions) }}</p>
+      <p>{{ exam.duration }}</p>
+      <p>{{ getDate(exam.startDateTime) }}</p>
+      <p>{{ getDate(exam.endDateTime) }}</p>
+      <span class="actions">
+        <a (click)="edit(exam)">
+          <mat-icon>edit</mat-icon>
+        </a>
+        <a (click)="delete(exam.id)">
+          <mat-icon>delete</mat-icon>
+        </a>
+      </span>
+  </div>
+</div>

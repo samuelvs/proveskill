@@ -1,0 +1,47 @@
+<form [formGroup]="formExam">
+  <div class="form-content">
+    <div class="form-content--item">
+      <label for="question">Nome:</label>
+      <input type="text" class="form-control" name="title" formControlName="title">
+    </div>
+    <div class="form-content--item">
+      <label for="startDateTime">Data de inicio:</label>
+      <input type="datetime-local" class="form-control" name="startDateTime" formControlName="startDateTime">
+    </div>
+    <div class="form-content--item">
+      <label for="endDateTime">Data de fim:</label>
+      <input type="datetime-local" class="form-control" name="endDateTime" formControlName="endDateTime">
+    </div>
+    <div class="form-content--item">
+      <label for="duration">Duração:</label>
+      <input type="number" class="form-control" name="duration" formControlName="duration">
+    </div>
+  </div>
+
+  <div class="questions">
+    <div class="question-container">
+      <span class="column">
+        <p class="first">Selecionar</p>
+        <p>Tipo de questão</p>
+        <p>Enuciado</p>
+        <p>Alternativas</p>
+        <p>Dificuldade</p>
+      </span>
+      <div class="question-container--item " *ngFor="let question of questions">
+          <mat-checkbox  [checked]="questionChecked(question)" color="primary" (change)="changeBox(question)">
+            <span class="question-container--item row">
+              <p>{{ questionTypes[question.type] }}</p>
+              <p>{{ question.name }}</p>
+              <p>{{ adjustAlternatives(question.alternatives) }}</p>
+              <p>{{ difficultyTypes[question.level] }}</p>
+            </span>
+          </mat-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="submit" (click)="save()" mat-raised-button color="primary">Salvar</button>
+    <button (click)="clearForm()" mat-raised-button color="warn">Limpar</button>
+  </div>
+</form>

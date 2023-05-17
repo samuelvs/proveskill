@@ -1,0 +1,102 @@
+:host {
+  color: #303030;
+}
+
+.title {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+form {
+  margin-top: 16px;
+
+  label {
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+
+.form-content {
+  display: flex;
+  width: -webkit-fill-available;
+  gap: 16px;
+  justify-content: center;
+
+  &--item {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .form-control {
+    height: 30px;
+    border: 0px;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+}
+
+.questions {
+  mat-checkbox:hover {
+    background-color: #e3e3e3;
+  }
+
+  mat-checkbox {
+    display: flex;
+    height: 35px;
+    border-radius: 6px;
+    padding-left: 30px;
+  }
+
+  ::ng-deep {
+    .mat-checkbox-layout {
+      width: -webkit-fill-available !important;
+      align-items: center;
+    }
+
+    .mat-checkbox-inner-container {
+      margin-right: 70px;
+    }
+
+    .mat-checkbox-label {
+      flex: 1;
+    }
+  }
+
+  .question-container {
+    margin: 16px 16px;
+
+    .column {
+      display: flex;
+      font-weight: 800;
+
+      .first {
+        flex: 0;
+        margin-right: 50px;
+      }
+
+      p {
+        flex: 1;
+      }
+
+    }
+
+    .row {
+      display: flex;
+
+      p {
+        flex: 1;
+        margin: 0px;
+      }
+
+    }
+  }
+
+}
+
+.actions {
+  gap: 16px;
+  display: flex;
+}

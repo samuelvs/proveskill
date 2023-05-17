@@ -1,0 +1,26 @@
+<div class="title">
+  <div>
+    <h2>Exames</h2>
+  </div>
+</div>
+
+<div class="exam-container">
+  <span class="column">
+    <p>Nome</p>
+    <p>Duração</p>
+    <p>Inicio</p>
+    <p>Fim</p>
+    <p>Ações</p>
+  </span>
+  <div class="exam-container--item row" *ngFor="let exam of exams">
+      <p>{{ exam.title }}</p>
+      <p>{{ exam.duration }}</p>
+      <p>{{ getDate(exam.startDateTime) }}</p>
+      <p>{{ getDate(exam.endDateTime) }}</p>
+      <span class="actions">
+        <a (click)="start(exam)">
+          <mat-icon>play_arrow</mat-icon>
+        </a>
+      </span>
+  </div>
+</div>

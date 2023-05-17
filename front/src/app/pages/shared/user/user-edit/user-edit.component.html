@@ -1,0 +1,32 @@
+<form [formGroup]="formUser">
+  <div class="form-content">
+    <div class="form-content--item">
+      <label for="nome">Nome:</label>
+      <input type="text" class="form-control" name="name" id="nome" formControlName="name">
+    </div>
+    <div class="form-content--item">
+      <label for="email">Email:</label>
+      <input type="text" class="form-control" name="email" formControlName="email">
+    </div>
+  </div>
+
+  <div class="form-content">
+    <div class="form-content--item">
+      <label for="school">Escola:</label>
+      <input type="text" class="form-control" name="school" formControlName="school">
+    </div>
+
+    <div class="form-content--item">
+      <label for="type">Privilegio:</label>
+      <select class="form-control" name="type" formControlName="role">
+        <option value="STUDENT">Estudante</option>
+        <option value="TEACHER">Docente</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button (click)="save()" mat-raised-button color="primary">Salvar</button>
+    <button (click)="clearUser()" mat-raised-button color="warn">Limpar</button>
+  </div>
+</form>
