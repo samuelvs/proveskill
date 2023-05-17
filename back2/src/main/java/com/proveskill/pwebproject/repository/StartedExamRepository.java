@@ -9,6 +9,6 @@ import com.proveskill.pwebproject.model.Exam;
 import com.proveskill.pwebproject.model.StartedExam;
 import com.proveskill.pwebproject.model.User;
 
-public interface StartedExamRepository extends JpaRepository<StartedExam, Integer> {
+public interface StartedExamRepository extends JpaRepository<StartedExam, Long> {
     Optional<StartedExam> findByExamAndUser(Exam exam, User user);
 }

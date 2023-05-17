@@ -118,7 +118,7 @@ public class ExamService {
         return startedExam;
     }
 
-    public ExamAnswer answerExam(Integer startExamId, Integer questionId, List<String> answer) {
+    public ExamAnswer answerExam(Long startExamId, Integer questionId, List<String> answer) {
         Optional<Question> question = this.questionRepository.findById(questionId);
         Optional<StartedExam> startedExam = this.startedExamRepository.findById(startExamId);
 
@@ -134,7 +134,6 @@ public class ExamService {
         }
         
         ExamAnswer examAnswer = examAnswerFound.get();
-        System.out.println(examAnswer);
         examAnswer.setAnswer(answer);
         return this.examAnswerRepository.save(examAnswer);
     }

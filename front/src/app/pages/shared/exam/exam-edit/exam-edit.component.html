@@ -30,7 +30,7 @@
       <div class="question-container--item " *ngFor="let question of questions">
           <mat-checkbox  [checked]="questionChecked(question)" color="primary" (change)="changeBox(question)">
             <span class="question-container--item row">
-              <p>{{ questionTypes[question.type] }}</p>
+              <p>{{ questionTypes[question.type-1] }}</p>
               <p>{{ question.name }}</p>
               <p>{{ adjustAlternatives(question.alternatives) }}</p>
               <p>{{ difficultyTypes[question.level] }}</p>

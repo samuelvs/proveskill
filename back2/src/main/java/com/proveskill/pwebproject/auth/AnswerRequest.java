@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class AnswerRequest {
 
   @JsonProperty("started_exam_id")
-  private Integer started_exam_id;
+  private Long started_exam_id;
 
   @JsonProperty("question_id")
   private Integer question_id;

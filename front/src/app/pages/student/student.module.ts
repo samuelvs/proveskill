@@ -18,6 +18,8 @@ import { ExamModule } from '../shared/exam/exam.module';
 import { ExamsComponent } from './exams/exams.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ExamsModule } from './exams/exams.module';
+import { AnswerExamComponent } from './answer-exam/answer-exam.component';
+import { AnswerExamModule } from './answer-exam/answer-exam.module';
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { ExamsModule } from './exams/exams.module';
     QuestionModule,
     ExamModule,
     MatDialogModule,
-    ExamsModule
+    ExamsModule,
+    AnswerExamModule
   ],
   bootstrap: [StudentComponent]
 })

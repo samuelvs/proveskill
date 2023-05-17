@@ -43,9 +43,12 @@ export class UserEditComponent implements OnInit {
   }
 
   save() {
-    this.userService.putUsers(this.formUser.value).subscribe(res => {
+    this.userService.putUsers(this.formUser.value).subscribe((res: any) => {
       this.formUser.reset();
       this.submit.emit();
+      if (res?.password) {
+        this.userService._snackBar.open(`Usuário cadastrado com a senha: ${res?.password}`, '', {duration:10000});
+      }
     });
   }
 }

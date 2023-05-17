@@ -55,8 +55,9 @@ public class UserService {
 				userFound.setSchool(userDto.getSchool());
 				userFound.setFirstAccess(userDto.getFirstAcess() || true);
 				userFound.setRole(userDto.getRole());
-
-				return this.repository.saveAndFlush(userFound);
+				User userSaved = this.repository.saveAndFlush(userFound);
+				userSaved.setPassword(null);;
+				return userSaved;
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException("UserService - update: Error when update user: {}", e);

@@ -10,8 +10,7 @@ import { environment as env } from 'src/environments/environment';
 })
 export class UserService {
 
-  // private url = `${env.apiBaseUrl}`;
-  private url = `/api/api`;
+  private url = `${env.apiBaseUrl}`;
 
   constructor(private http: HttpClient, public _snackBar: MatSnackBar) {}
 
@@ -39,19 +38,12 @@ export class UserService {
         }));
   }
 
-  delete(id: number) {
-      return this.http.delete(this.url + `/${id}`)
-              .subscribe((res: any) => {
-                return res;
-              }, (rej) => {
-                this._snackBar.open(
-                  `Houve algum erro, verifique as informações e tente novamente.`,
-                  '',
-                  {
-                    duration: 5000
-                  }
-                );
-            })
+  public delete(id: number) {
+      return this.http.delete(this.url + `/users/${id}`)
+      .pipe(
+        map((res) => {
+          return res;
+        }));
   }
 
 }

@@ -1,0 +1,72 @@
+<div *ngIf="!isLoading" class="title">
+  <div class="title__content" >
+    <h2>{{startedExam?.exam?.title}}</h2>
+    <div>
+      Tempo restante:
+      <span id="time">00:00:00</span> minutos.
+    </div>
+  </div>
+  <div class="questions-map">
+    <span *ngFor="let question of startedExam?.exam?.questions; index as i"
+    [class.visualized]="question.answer"
+    [class.selected]="question.id === currentQuestion.id"
+    (click)="getQuestion(i)">
+      {{i+1}}
+    </span>
+  </div>
+</div>
+
+<div *ngIf="!isLoading">
+  <h4>{{currentQuestion?.name}}</h4>
+
+</div>
+
+<form *ngIf="!isLoading" [formGroup]="formAnswer">
+  <div class="form-content alternatives-conteiner">
+    <div *ngIf="currentQuestion?.type == 1" class="options">
+      <input type="text" class="form-control" name="answer" placeholder="Resposta" formControlName="answer">
+    </div>
+
+    <div *ngIf="currentQuestion?.type == 2" class="options">
+      <div *ngFor="let item of currentQuestion.alternatives let i = index">
+        <mat-radio-group formControlName="answer">
+          <mat-radio-button
+            color="primary"
+            name="alternativesItems"
+            [value]="item"
+            [checked]="formAnswer.controls.answer.value === item">{{item}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <div *ngIf="currentQuestion?.type == 3" class="options">
+      <div *ngFor="let item of currentQuestion.alternatives; let i = index">
+        <mat-checkbox [checked]="formAnswer.controls.answer.value.includes(item)" (change)="changeBox(item)">
+          {{item}}
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <div *ngIf="currentQuestion?.type == 4">
+      <mat-radio-group class="options" formControlName="answer">
+        <mat-radio-button
+          color="primary"
+          name="alternativesItems"
+          [value]="'Verdadeiro'"
+          [checked]="formAnswer.controls.answer.value === 'Verdadeiro'">Verdadeiro
+        </mat-radio-button>
+        <mat-radio-button
+          color="primary"
+          name="alternativesItems"
+          [value]="'Falso'"
+          [checked]="formAnswer.controls.answer.value === 'Falso'">Falso
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button *ngIf="canFinalize()" (click)="finalize()" mat-raised-button color="primary">Finalizar</button>
+  </div>
+</form>

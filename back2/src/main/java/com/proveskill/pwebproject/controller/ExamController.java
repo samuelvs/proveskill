@@ -17,6 +17,8 @@ import com.proveskill.pwebproject.model.StartedExam;
 import com.proveskill.pwebproject.model.User;
 import com.proveskill.pwebproject.service.ExamService;
 import com.proveskill.pwebproject.user.Role;
+import lombok.extern.slf4j.Slf4j;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping(PathConstants.BASE_PATH)
 @RequiredArgsConstructor
+@Slf4j
 public class ExamController {
     private final ExamService examService;
 
@@ -72,13 +75,19 @@ public class ExamController {
 
     @PutMapping(value = PathConstants.EXAMS + "/answer", produces = "application/json")
     public ResponseEntity<List<String>> answerExam(@RequestBody AnswerRequest request) throws Exception {
-        System.out.println("chegoou");
+        log.info("ExamController - answerExam: " + request.getStarted_exam_id() + " / Question: " + request.getQuestion_id());
         ExamAnswer examAnswer = this.examService.answerExam(request.getStarted_exam_id(), request.getQuestion_id(), request.getAnswer());
         return ResponseEntity.ok(examAnswer.getAnswer());
     }
 
-    @GetMapping(value = PathConstants.EXAMS + "/start/{examId}/{userId}", produces = "application/json")
-    public ResponseEntity<StartedExam> startExam(@PathVariable("examId") Integer examId, @PathVariable("userId") Integer userId) {
+    @GetMapping(value = PathConstants.EXAMS + "/start/{examId}", produces = "application/json")
+    public ResponseEntity<StartedExam> startExam(@PathVariable("examId") Integer examId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        Integer userId = user.getId();
+
+        log.info("ExamController - startExam: " + examId + " / User: " + user.getName() + " has started exam.");
+        
         StartedExam startedExam = this.examService.startExam(examId, userId);
         return ResponseEntity.ok(startedExam);
     }

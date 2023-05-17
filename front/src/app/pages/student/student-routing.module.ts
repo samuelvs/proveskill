@@ -8,6 +8,7 @@ import { StudentComponent } from './student.component';
 import { HomeComponent } from '../shared/home/home.component';
 import { RoleGuard } from 'src/app/auth/role.guard';
 import { ExamsComponent } from './exams/exams.component';
+import { AnswerExamComponent } from './answer-exam/answer-exam.component';
 
 
 const routes: Routes = [{
@@ -16,6 +17,7 @@ const routes: Routes = [{
     children:[
     { path: '',  component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
     { path: 'exames',  component: ExamsComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+    { path: 'responder',  component: AnswerExamComponent, pathMatch: 'full', canActivate: [AuthGuard] },
     // { path: 'exame',  component: ExamComponent, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard] },
   ]
 }];

@@ -15,8 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ExamService {
 
-  // private url = `${env.apiBaseUrl}/exams`;
-  private url = `/api/api/exams`;
+  private url = `${env.apiBaseUrl}/exams`;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
 
@@ -25,6 +24,22 @@ export class ExamService {
 
   getExams() {
       return this.http.get(this.url)
+      .pipe(
+        map((res) => {
+          return res;
+        }));
+  }
+
+  public startExam(examId) {
+      return this.http.get(`${this.url}/start/${examId}`)
+      .pipe(
+        map((res) => {
+          return res;
+        }));
+  }
+
+  public answer(data) {
+      return this.http.put(`${this.url}/answer`, data)
       .pipe(
         map((res) => {
           return res;

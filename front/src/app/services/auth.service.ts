@@ -15,8 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AuthService {
 
-  // private url = `${env.apiBaseUrl}/auth`;
-  private url = `/api/api/auth`;
+  private url = `${env.apiBaseUrl}/auth`;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient, public router: Router, public _snackBar: MatSnackBar) {

@@ -26,7 +26,7 @@
       <span class="tags">
         <p *ngFor="let tag of question.tags">{{tag}}</p>
       </span>
-      <p>{{questionTypes[question.type]}}</p>
+      <p>{{questionTypes[question.type-1]}}</p>
       <span class="actions">
         <a (click)="edit(question)">
           <mat-icon>edit</mat-icon>

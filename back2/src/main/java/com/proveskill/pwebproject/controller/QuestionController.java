@@ -1,6 +1,9 @@
 package com.proveskill.pwebproject.controller;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,13 +32,16 @@ public class QuestionController {
         return ResponseEntity.ok(questions);
     }
 
+    
     @GetMapping(PathConstants.QUESTIONS + "/{id}")
+    @Cacheable("questions")
     public ResponseEntity<Question> getQuestionById(@PathVariable("id") Integer id, Model model) {
         Question question = this.questionService.findById(id);
         return ResponseEntity.ok(question);
     }
 
     @PutMapping(value = PathConstants.QUESTIONS, consumes = "application/json", produces = "application/json")
+    @CacheEvict(cacheNames = "questions", allEntries = true)
     public ResponseEntity<Object> saveQuestion(@RequestBody Question questionDto) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
@@ -46,6 +52,7 @@ public class QuestionController {
     }
 
     @DeleteMapping(PathConstants.QUESTIONS + "/{id}")
+    @CacheEvict(cacheNames = "questions", allEntries = true)
     public ResponseEntity<Void> deleteQuestion(@PathVariable("id") Integer id) {
         this.questionService.delete(id);
         return ResponseEntity.noContent().build();

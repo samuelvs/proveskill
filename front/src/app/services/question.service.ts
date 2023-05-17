@@ -15,8 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class QuestionService {
 
-  // private url = `${env.apiBaseUrl}/questions`;
-  private url = `/api/api/questions`;
+  private url = `${env.apiBaseUrl}/questions`;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
 

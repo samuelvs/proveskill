@@ -52,8 +52,17 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser(id) {
-    this.userService.delete(id);
-    this.loadUsers();
+    this.userService.delete(id).subscribe(res => {
+      this.loadUsers();
+    }, rej => {
+      this.userService._snackBar.open(
+        `Houve algum erro, verifique as informações e tente novamente.`,
+        '',
+        {
+          duration: 5000
+        }
+      );
+    });
   }
 
 }

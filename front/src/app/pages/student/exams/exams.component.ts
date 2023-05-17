@@ -3,6 +3,7 @@ import { ExamService } from 'src/app/services/exam.service';
 import {
   MatSnackBar
 } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exams',
@@ -13,7 +14,7 @@ export class ExamsComponent implements OnInit {
   exams: any = [];
 
 
-  constructor(private examService: ExamService, private _snackBar: MatSnackBar) { }
+  constructor(private examService: ExamService, private _snackBar: MatSnackBar, public router: Router) { }
 
   ngOnInit(): void {
     this.loadExams();
@@ -45,7 +46,7 @@ export class ExamsComponent implements OnInit {
         }
       );
     } else {
-
+      this.router.navigate(['estudante/responder'], { state: { examId: exam.id } });
     }
   }
 
