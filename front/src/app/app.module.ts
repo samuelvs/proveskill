@@ -23,6 +23,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { PageNotFoundComponent } from './pages/shared/page-not-found/page-not-found.component';
 import { StudentModule } from './pages/student/student.module';
 import { ChangePasswordModule } from './components/change-password/change-password.module';
+import { ForgotPasswordModule } from './components/forgot-password/forgot-password.module';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ChangePasswordModule } from './components/change-password/change-passwo
     AdminModule,
     TeacherModule,
     StudentModule,
-    ChangePasswordModule
+    ChangePasswordModule,
+    ForgotPasswordModule
   ],
   providers: [
     {

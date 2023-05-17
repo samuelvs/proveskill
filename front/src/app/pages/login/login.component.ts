@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ForgotPasswordComponent } from 'src/app/components/forgot-password/forgot-password.component';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -14,7 +16,8 @@ export class LoginComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
-    public router: Router
+    public router: Router,
+    public dialog: MatDialog
   ) {
     this.signinForm = this.fb.group({
       email: [''],
@@ -28,4 +31,12 @@ export class LoginComponent implements OnInit {
     this.authService.signIn(this.signinForm.value.email, this.signinForm.value.password);
   }
 
+  forgotPassword() {
+    let dialogRef = this.dialog.open(ForgotPasswordComponent,  {width: '500px'});
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.event === 'forgot-password') {
+        this.authService.changePassword(result?.data?.email, result?.data?.password);
+      }
+    });
+  }
 }

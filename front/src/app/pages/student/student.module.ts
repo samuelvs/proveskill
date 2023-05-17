@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ExamsModule } from './exams/exams.module';
 import { AnswerExamComponent } from './answer-exam/answer-exam.component';
 import { AnswerExamModule } from './answer-exam/answer-exam.module';
+import { ChangePasswordModule } from 'src/app/components/change-password/change-password.module';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { AnswerExamModule } from './answer-exam/answer-exam.module';
     ExamModule,
     MatDialogModule,
     ExamsModule,
-    AnswerExamModule
+    AnswerExamModule,
+    ChangePasswordModule
   ],
   bootstrap: [StudentComponent]
 })

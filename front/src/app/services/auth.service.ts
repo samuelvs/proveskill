@@ -30,7 +30,6 @@ export class AuthService {
                 localStorage.setItem('school', res.school);
                 localStorage.setItem('role', res.role);
                 localStorage.setItem('first_access', res.first_acsess);
-                console.log(res.role);
 
                 switch (res?.role) {
                   case "ADMIN":
@@ -58,9 +57,9 @@ export class AuthService {
 
   changePassword(email:string, password:string ) {
       return this.http.post(this.url + '/change-password', {email, password})
-              .subscribe((res: any) => {}, (rej) => {
-                console.log(rej);
-
+              .subscribe((res: any) => {
+                localStorage.setItem('first_access', 'false');
+              }, (rej) => {
                 this._snackBar.open(
                   `Houve algum erro, verifique as informações e tente novamente.`,
                   '',

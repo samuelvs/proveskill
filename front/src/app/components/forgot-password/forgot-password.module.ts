@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AdminRoutingModule } from './admin-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,21 +11,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { UserModule } from '../shared/user/user.module';
-import { QuestionModule } from '../shared/question/question.module';
-import { ExamModule } from '../shared/exam/exam.module';
-import { AdminComponent } from './admin.component';
+import { ForgotPasswordComponent } from './forgot-password.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
-  declarations: [AdminComponent],
+  declarations: [ForgotPasswordComponent],
   imports: [
     CommonModule,
-    AdminRoutingModule,
     BrowserModule,
     AppRoutingModule,
     BrowserModule,
+    MatDialogModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,
@@ -34,12 +30,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatDividerModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    UserModule,
-    QuestionModule,
-    ExamModule,
-    MatDialogModule
   ],
-  bootstrap: [AdminComponent]
+  bootstrap: [ForgotPasswordComponent]
 })
-export class AdminModule { }
+export class ForgotPasswordModule { }

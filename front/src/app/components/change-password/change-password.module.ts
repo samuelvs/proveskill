@@ -18,7 +18,18 @@ import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [ChangePasswordComponent],
   imports: [
-    MatDialogModule
+    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    ReactiveFormsModule,
   ],
   bootstrap: [ChangePasswordComponent]
 })

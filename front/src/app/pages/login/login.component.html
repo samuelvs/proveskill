@@ -1,4 +1,22 @@
-<div class="auth-wrapper">
+<div class="container">
+  <h2>Login</h2>
+  <form class="form-signin" [formGroup]="signinForm" (ngSubmit)="loginUser()">
+    <div class="form-group">
+      <label for="username">Email:</label>
+      <input type="email" id="username"  formControlName="email" name="username" placeholder="Digite seu usuário" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Senha:</label>
+      <input type="password" id="password" formControlName="password" name="password" placeholder="Digite sua senha" required>
+    </div>
+    <a (click)="forgotPassword()">Esqueceu sua senha?</a>
+    <div class="form-group">
+      <button type="submit" class="button">Entrar</button>
+    </div>
+  </form>
+</div>
+
+<!-- <div class="auth-wrapper">
   <form class="form-signin" [formGroup]="signinForm" (ngSubmit)="loginUser()">
     <h3 class="h3 mb-3 font-weight-normal text-center">Please sign in</h3>
     <div class="form-group">
@@ -20,6 +38,7 @@
         placeholder="Password"
       />
     </div>
-    <button type="submit" class="btn btn-block btn-primary">Sign in</button>
+    <button type="submit" class="btn btn-block btn-primary">Entrar</button>
   </form>
-</div>
+  <a (click)="forgotPassword()">Esqueci minha senha</a>
+</div> -->
