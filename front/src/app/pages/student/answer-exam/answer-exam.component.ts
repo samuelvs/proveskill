@@ -52,7 +52,7 @@ export class AnswerExamComponent implements OnInit {
       const formattedTime = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
 
       if (remainingTime <= 0) {
-        // this.router.navigate(['estudante/exames']);
+        this.router.navigate(['estudante/exames']);
       } else {
         display.textContent = formattedTime;
       }
@@ -70,7 +70,9 @@ export class AnswerExamComponent implements OnInit {
         localStorage.setItem('startedExamId', res.id);
         localStorage.setItem('examId', res.exam.id);
         this.currentQuestion = this.startedExam.exam.questions[0];
-        this.currentQuestion.type === 3 ? this.formAnswer.get('answer').setValue(this.currentQuestion.answer) : this.formAnswer.get('answer').setValue(...this.currentQuestion.answer);
+        if (this.currentQuestion.answer) {
+          this.currentQuestion.type === 3 ? this.formAnswer.get('answer').setValue(this.currentQuestion.answer) : this.formAnswer.get('answer').setValue(...this.currentQuestion.answer);
+        }
         this.isLoading = false;
         this.calculateTimeRemaining(res.startedAt, res.exam.duration);
       },
@@ -106,27 +108,27 @@ export class AnswerExamComponent implements OnInit {
   }
 
   answerQuestion(answer) {
-    const data = {
-      started_exam_id: parseInt(this.startedExam.id),
-      question_id: this.currentQuestion?.id,
-      answer: answer
-    };
-    console.log(data);
-    this.examService.answer(data).subscribe(res => {
-      this.startedExam.exam.questions.find(el => el.id === this.currentQuestion.id).answer = answer;
-      this.currentQuestion.answer = answer;
-      console.log(this.startedExam.exam.questions);
+    if(this.currentQuestion && answer.length > 0) {
+      const data = {
+        started_exam_id: parseInt(this.startedExam.id),
+        question_id: this.currentQuestion?.id,
+        answer: answer
+      };
 
-    },
-      rej => {
-      this.examService._snackBar.open(
-        `Algo deu errado com a solicitação, verifique as informações e tente novamente.`,
-        '',
-        {
-          duration: 5000
-        }
-      );
-    })
+      this.examService.answer(data).subscribe(res => {
+        this.startedExam.exam.questions.find(el => el.id === this.currentQuestion.id).answer = answer;
+        this.currentQuestion.answer = answer;
+      },
+        rej => {
+        this.examService._snackBar.open(
+          `Algo deu errado com a solicitação, verifique as informações e tente novamente.`,
+          '',
+          {
+            duration: 5000
+          }
+        );
+      })
+    }
   }
 
   changeBox(item) {

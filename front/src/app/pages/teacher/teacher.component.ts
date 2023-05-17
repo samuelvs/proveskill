@@ -31,17 +31,13 @@ export class TeacherComponent {
     public dialog: MatDialog) {}
 
   ngOnInit() {
-    console.log(this.authService?.currentUser?.first_access);
     if (this.authService?.currentUser?.first_access === 'true') {
-      console.log(this.authService?.currentUser?.first_access);
-
       let dialogRef = this.dialog.open(ChangePasswordComponent,  {width: '500px'});
       dialogRef.afterClosed().subscribe((result) => {
         if (result?.event === 'change-password') {
           this.authService.changePassword(this.authService.currentUser.email, result?.data);
         }
       });
-
     }
   }
 
