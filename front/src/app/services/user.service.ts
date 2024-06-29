@@ -9,7 +9,6 @@ import { environment as env } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class UserService {
-
   private url = `${env.apiBaseUrl}`;
 
   constructor(private http: HttpClient, public _snackBar: MatSnackBar) {}

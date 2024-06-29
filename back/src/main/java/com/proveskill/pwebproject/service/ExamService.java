@@ -118,6 +118,15 @@ public class ExamService {
         return startedExam;
     }
 
+    public List<StartedExam> findAllStartedExams() {
+        List<StartedExam> startedExams = this.startedExamRepository.findAll();
+        for(StartedExam started: startedExams) {
+            started.setExam(this.fillQuestionsToExaList(started, started.getExam()));
+        }
+        
+        return startedExams;
+    }
+
     public ExamAnswer answerExam(Long startExamId, Integer questionId, List<String> answer) {
         Optional<Question> question = this.questionRepository.findById(questionId);
         Optional<StartedExam> startedExam = this.startedExamRepository.findById(startExamId);
@@ -156,5 +165,44 @@ public class ExamService {
         }
         exam.setQuestions(questions);
         return exam;
+    }
+
+    public Exam fillQuestionsToExaList(StartedExam startedExam, Exam exam) {
+        List<Question> questions = new ArrayList<>();
+        for (Question question : exam.getQuestions()) {
+            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
+            question.setUserAnswer(examAnswer.get().getAnswer());
+            questions.add(question);
+        }
+        exam.setQuestions(questions);
+        return exam;
+    }
+
+    public Integer result(User user, Exam exam) {
+        Optional<StartedExam> startedExamFounded = this.startedExamRepository.findByExamAndUser(exam, user);
+        if (!startedExamFounded.isPresent()) {
+            return 0;
+        }
+        StartedExam startedExam = startedExamFounded.get();
+        Integer result = 0;
+
+        for (Question question : exam.getQuestions()) {
+            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
+            if (examAnswer.isPresent()) {
+                if (!examAnswer.isEmpty()) {
+                    if (compareList(question.getAnswer(), examAnswer.get().getAnswer())) {
+                        result = result + 1;
+                        System.out.println(result);
+                    }
+                }
+            }
+        }
+
+        
+        return result;
+    }
+
+    public static boolean compareList(List ls1,List ls2){
+        return ls1.toString().contentEquals(ls2.toString())?true:false;
     }
 }

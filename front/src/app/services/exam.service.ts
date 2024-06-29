@@ -30,6 +30,14 @@ export class ExamService {
         }));
   }
 
+  getExamsAnswered() {
+      return this.http.get(this.url+`/started-exams`)
+      .pipe(
+        map((res) => {
+          return res;
+        }));
+  }
+
   public startExam(examId) {
       return this.http.get(`${this.url}/start/${examId}`)
       .pipe(

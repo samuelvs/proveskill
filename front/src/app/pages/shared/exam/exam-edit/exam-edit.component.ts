@@ -6,6 +6,7 @@ import { ExamService } from 'src/app/services/exam.service';
 import { Exam } from '../exam';
 import { QuestionService } from 'src/app/services/question.service';
 import { Question } from '../../question/question';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-exam-edit',
@@ -44,6 +45,25 @@ export class ExamEditComponent implements OnInit {
       this.formExam.patchValue(change.exam.currentValue);
       this.questionsSelected = change.exam.currentValue.questions;
       this.questionsSelected.filter(el => el.user = null)
+    }
+  }
+
+  searchQuestion() {
+    var search = document.getElementById("a") as HTMLInputElement;
+    if (search.value.length > 0) {
+      this.questionService.getQuestionsBySearch(search.value).subscribe((res: Question[]) => {
+        this.questions = res;
+      }, rej => {
+        this.examService._snackBar.open(
+          `Houve algum erro, verifique as informações e tente novamente.`,
+          '',
+          {
+            duration: 5000
+          }
+          );
+        });
+    } else {
+      this.loadQuestions();
     }
   }
 
@@ -93,6 +113,9 @@ export class ExamEditComponent implements OnInit {
   save() {
     let values = this.formExam.value;
     values.questions = this.questionsSelected;
+
+    console.log(values);
+
 
     this.examService.putExams(values).subscribe(res => {
       this.formExam.reset();

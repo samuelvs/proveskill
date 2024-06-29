@@ -21,6 +21,7 @@ export class TeacherComponent {
     { name: 'Inicio', link: '/docente', icon: 'home' },
     { name: 'Questões', link: '/docente/questao', icon: 'info' },
     { name: 'Exames', link: '/docente/exame', icon: 'task' },
+    { name: 'Exames Respondidos', link: '/docente/exames-respondidos', icon: 'task' },
   ];
   @ViewChild('myDialog') changePassword: TemplateRef<any>;
 

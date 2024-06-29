@@ -30,6 +30,14 @@ export class QuestionService {
         }));
   }
 
+  getQuestionsBySearch(search) {
+      return this.http.get(this.url+`/search/${search}`)
+      .pipe(
+        map((res) => {
+          return res;
+        }));
+  }
+
   public putQuestions(data) {
     return this.http.put(`${this.url}`, data)
       .pipe(

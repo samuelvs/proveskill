@@ -12,15 +12,12 @@ import com.proveskill.pwebproject.auth.AnswerRequest;
 import com.proveskill.pwebproject.constants.PathConstants;
 import com.proveskill.pwebproject.model.Exam;
 import com.proveskill.pwebproject.model.ExamAnswer;
-import com.proveskill.pwebproject.model.Question;
 import com.proveskill.pwebproject.model.StartedExam;
 import com.proveskill.pwebproject.model.User;
 import com.proveskill.pwebproject.service.ExamService;
 import com.proveskill.pwebproject.user.Role;
 import lombok.extern.slf4j.Slf4j;
 
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,17 +36,7 @@ public class ExamController {
         List<Exam> exams = this.examService.findAll();
 
         if (user.getRole().equals(Role.STUDENT)) {
-            List<Exam> selectedColumns = new ArrayList<>();
-            for (Exam exam : exams) {
-                Exam selectedExam = new Exam();
-                selectedExam.setId(exam.getId());
-                selectedExam.setTitle(exam.getTitle());
-                selectedExam.setDuration(exam.getDuration());
-                selectedExam.setStartDateTime(exam.getStartDateTime());
-                selectedExam.setEndDateTime(exam.getEndDateTime());
-                selectedColumns.add(selectedExam);
-            }
-            return selectedColumns;
+            return this.userResultExams();
         }
 
         return ResponseEntity.ok(exams);
@@ -90,5 +77,32 @@ public class ExamController {
         
         StartedExam startedExam = this.examService.startExam(examId, userId);
         return ResponseEntity.ok(startedExam);
+    }
+
+    @GetMapping(value = PathConstants.EXAMS + "/started-exams", produces = "application/json")
+    public ResponseEntity<List<StartedExam>> startedExams() {        
+        List<StartedExam> startedExams = this.examService.findAllStartedExams();
+        return ResponseEntity.ok(startedExams);
+    }
+
+    @GetMapping(value = PathConstants.EXAMS + "/result-exams", produces = "application/json")
+    public ResponseEntity<List<Exam>> userResultExams() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        List<Exam> exams = this.examService.findAll();
+        List<Exam> selectedColumns = new ArrayList<>();
+        for (Exam exam : exams) {
+            Integer result = this.examService.result(user, exam);
+            Exam selectedExam = new Exam();
+            selectedExam.setId(exam.getId());
+            selectedExam.setTitle(exam.getTitle());
+            selectedExam.setDuration(exam.getDuration());
+            selectedExam.setStartDateTime(exam.getStartDateTime());
+            selectedExam.setEndDateTime(exam.getEndDateTime());
+            selectedExam.setResult(result);
+            selectedColumns.add(selectedExam);
+        }
+        return ResponseEntity.ok(selectedColumns);
     }
 }

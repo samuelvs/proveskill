@@ -24,12 +24,14 @@ import { PageNotFoundComponent } from './pages/shared/page-not-found/page-not-fo
 import { StudentModule } from './pages/student/student.module';
 import { ChangePasswordModule } from './components/change-password/change-password.module';
 import { ForgotPasswordModule } from './components/forgot-password/forgot-password.module';
+import { ExamAnsweredComponent } from './pages/shared/exam-answered/exam-answered.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ExamAnsweredComponent,
   ],
   imports: [
     BrowserModule,

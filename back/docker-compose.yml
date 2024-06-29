@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+  mysql-service:
+    image: mysql:5.7
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+    ports:
+      - $MYSQL_PORT:$MYSQL_PORT
+    volumes:
+      - database_data:/var/lib/mysql
+
+  spring-service:
+    depends_on:
+      - mysql-service
+    build: ./
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - 8080:8080
+    environment:
+      - SLEEP_LENGTH=5
+      - SPRING_DATASOURCE_URL= jdbc:mysql://localhost:3306/proveskill_db?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=$MYSQLDB_USER
+      - SPRING_DATASOURCE_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - APPLICATION_SECURITY_JWT_SECRET-KEY=7A244326452948404D635166546A576E5A7234753778214125442A472D4A614E
+      - APPLICATION_SECURITY_JWT_EXPIRATION=86400000
+      - APPLICATION_SECURITY_JWT_REFRESH-TOKEN_EXPIRATION=604800000
+
+  sonarqube:
+    image: sonarqube:9.9.0-community
+    hostname: sonarqube
+    container_name: sonarqube
+    depends_on:
+      - db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    ports:
+      - "9000:9000"
+  db:
+    image: postgres:13
+    hostname: postgresql
+    container_name: postgresql
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+volumes:
+  database_data:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  postgresql:
+  postgresql_data:

@@ -1,6 +1,7 @@
 package com.proveskill.pwebproject.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,10 @@ import org.springframework.stereotype.Service;
 import com.proveskill.pwebproject.model.Question;
 import com.proveskill.pwebproject.model.User;
 import com.proveskill.pwebproject.repository.QuestionRepository;
+import com.proveskill.pwebproject.specification.QuestionSpecifications;
 import com.proveskill.pwebproject.user.Role;
+
+import io.micrometer.common.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -72,6 +76,16 @@ public class QuestionService {
         return this.questionRepository.findById(id).map(this::formatQuestion).orElseThrow(
                 () -> new RuntimeException("QuestionServiceImpl - findById: Question not found")
         );
+    }
+
+    public List<Question> searchQuestions(String keyword) {
+        System.out.println(keyword);
+        if (StringUtils.isEmpty(keyword)) {
+            return questionRepository.findAll();
+        } else {
+            Specification<Question> spec = QuestionSpecifications.searchByFields(keyword);
+            return questionRepository.findAll(spec);
+        }
     }
 
     private Question formatQuestion(Question question) {

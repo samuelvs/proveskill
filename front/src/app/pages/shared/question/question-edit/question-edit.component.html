@@ -59,10 +59,10 @@
     </div>
     <div *ngIf="formQuestion.controls['type'].value == 3" class="options">
       <div *ngFor="let item of alternatives; let i = index">
-        <mat-checkbox (change)="changeBox(i)">
+        <mat-checkbox (change)="changeBox(item)">
           {{item}}
         </mat-checkbox>
-        <span (click)="removeAlternative(i)">X</span>
+        <span (click)="removeAlternative(item)">X</span>
       </div>
     </div>
     <div *ngIf="formQuestion.controls['type'].value == 4">

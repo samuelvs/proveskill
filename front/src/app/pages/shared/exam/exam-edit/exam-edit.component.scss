@@ -17,6 +17,16 @@ form {
   }
 }
 
+.search {
+  margin: 10px;
+  .search-input{
+    height: 30px;
+    border: 0px;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+}
+
 .form-content {
   display: flex;
   width: -webkit-fill-available;

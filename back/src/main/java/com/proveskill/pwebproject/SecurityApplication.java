@@ -1,6 +1,7 @@
 package com.proveskill.pwebproject;
 
 import com.proveskill.pwebproject.auth.RegisterRequest;
+import com.proveskill.pwebproject.repository.UserRepository;
 import com.proveskill.pwebproject.service.AuthenticationService;
 
 import org.springframework.boot.CommandLineRunner;
@@ -19,17 +20,21 @@ public class SecurityApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(
-			AuthenticationService service
+			AuthenticationService service,
+			UserRepository repository
 	) {
 		return args -> {
-			// var admin = RegisterRequest.builder()
-			// 		.name("Admin")
-			// 		.school("IFAL")
-			// 		.email("admin@mail.com")
-			// 		.password("password")
-			// 		.role(ADMIN)
-			// 		.build();
-			// System.out.println("Admin token: " + service.register(admin));
+			var user = repository.findByEmail("admin@admin.com");
+			if (user.isEmpty()) {
+				var admin = RegisterRequest.builder()
+				.name("Admin")
+				.school("IFAL")
+				.email("admin@admin.com")
+				.password("admin")
+				.role(ADMIN)
+				.build();
+				System.out.println("Admin token: " + service.register(admin));
+			}
 
 			// var manager = RegisterRequest.builder()
 			// 		.firstname("Admin")

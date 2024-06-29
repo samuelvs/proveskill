@@ -40,6 +40,12 @@ public class QuestionController {
         return ResponseEntity.ok(question);
     }
 
+    @GetMapping(PathConstants.QUESTIONS + "/search/{search}")
+    public ResponseEntity<List<Question>> getQuestionBySearch(@PathVariable("search") String search, Model model) {
+        List<Question> questions = this.questionService.searchQuestions(search);
+        return ResponseEntity.ok(questions);
+    }
+
     @PutMapping(value = PathConstants.QUESTIONS, consumes = "application/json", produces = "application/json")
     @CacheEvict(cacheNames = "questions", allEntries = true)
     public ResponseEntity<Object> saveQuestion(@RequestBody Question questionDto) throws Exception {

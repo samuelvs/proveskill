@@ -59,21 +59,31 @@ export class QuestionEditComponent implements OnInit {
     this.alternatives = this.alternatives.filter((el, i) => i !== index);
   }
 
-  changeBox(index) {
-    if (this.answers.includes(index)) {
-      this.answers = this.answers.filter(el => el !== index);
+  changeBox(item) {
+    if (this.answers.includes(item)) {
+      this.answers = this.answers.filter(el => el !== item);
     } else {
-      this.answers.push(index);
+      this.answers.push(item);
     }
 
     this.formQuestion.controls['answer'].setValue(this.answers);
   }
 
+  addAnswer(answer) {
+    this.formQuestion.controls['answer'].setValue([answer]);
+  }
+
   saveQuestion() {
     let values = this.formQuestion.value;
+    console.log(values);
+
     values.tags = [...values.tags];
     values.alternatives = this.alternatives;
-    values.answer = [ ...this.answers ];
+    this.formQuestion.controls['type'].value == 3 ? values.answer = [ ...this.answers ] : values.answer = [values.answer];
+
+
+    console.log(values);
+
 
     this.questionService.putQuestions(values).subscribe(res => {
       this.formQuestion.reset();

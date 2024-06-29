@@ -14,25 +14,39 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
-public class Exam {
+public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-    private String title;
+    private String name;
 
     @Column
-    private LocalDateTime startDateTime;
+    private Integer level;
+
+    @ElementCollection
+    private List<String> tags;
 
     @Column
-    private LocalDateTime endDateTime;
+    private Integer type;
+
+    @ElementCollection
+    private List<String> alternatives;
+
+    @ElementCollection
+    private List<String> answer;
+   
+    @ElementCollection
+    private List<String> userAnswer;
+
+    @ManyToOne
+    private User user;
 
     @Column
-    private Integer duration;
+    private LocalDateTime createdAt;
 
     @Column
-    @ManyToMany
-    private List<Question> questions;
+    private LocalDateTime updatedAt;
 }
