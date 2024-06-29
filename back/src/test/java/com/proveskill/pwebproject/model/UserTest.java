@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.proveskill.pwebproject.user.Role;
 
 @SpringBootTest
-public class UserTest {
+class UserTest {
 
     @Test
-    public void testGetAuthorities() {
+    void testGetAuthorities() {
         User user = User.builder()
                         .role(Role.ADMIN)
                         .build();

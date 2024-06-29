@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static org.springframework.http.HttpMethod.GET;
 
 import static com.proveskill.pwebproject.user.Role.ADMIN;
-import static com.proveskill.pwebproject.user.Role.TEACHER;;
+import static com.proveskill.pwebproject.user.Role.TEACHER;
 
 @Configuration
 @EnableWebSecurity
