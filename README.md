@@ -1,9 +1,12 @@
 # ProveSkill
-Projeto para a disciplina de PWEBII do Instituto Federal de Alagoas que visa a criação de um sistema web para avaliações.
+
+This project is a web system for conducting school exams. It allows creating classes, adding students, creating exams, scheduling exams for classes, and consequently, students can take exams through it. The project is for the Web Programming II course at the Federal Institute of Alagoas.
+
+[Node 14.17.0] [Npm 9.6.4]
 
 ## Configuration
 
-* In `back` folder run `docker-compose up -d mysql-service`.
+* In `back` folder run `docker-compose up -d mysql-service`, then run `mvn spring-boot:run`.
 * In `front` folder run `ng serve`.
 
 * localhost:4200
@@ -16,7 +19,7 @@ Projeto para a disciplina de PWEBII do Instituto Federal de Alagoas que visa a c
 In `back` folder:
 
 * Execute `docker-compose up -d mysql-service sonarqube`, then verify localhost:9000.
-First login default is `user:admin`, `password:admin`. You'll need change password.
+Sonar first login default is `user:admin`, `password:admin`. You'll need to change the password.
 
 * Create a TOKEN in `User -> My Account -> Security -> Generate Tokens`. Copy the token and insert in pom.xml `SONAR-USER-TOKER`.
 
@@ -25,7 +28,7 @@ First login default is `user:admin`, `password:admin`. You'll need change passwo
 
 You can see de reports in localhost:9000.
 
-## Configuration
+## Old configuration (deprecated)
 You should have Docker compose, Maven and JDK 17 installed on your machine.
 
 * At first, you should create a docker network. Run `docker network create proveskillnetwork` on your CMD.
