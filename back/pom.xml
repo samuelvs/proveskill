@@ -20,7 +20,7 @@
       <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
       <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
       <sonar.language>java</sonar.language>
-      <sonar.login>SONAR-USER-TOKEN</sonar.login>
+      <sonar.login>squ_ac393b4821298668b742097c8c322e94c4e776ca</sonar.login>
   </properties>
 
   <dependencies>

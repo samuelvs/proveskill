@@ -1,7 +1,19 @@
 # ProveSkill
 Projeto para a disciplina de PWEBII do Instituto Federal de Alagoas que visa a criação de um sistema web para avaliações.
 
+## Configuration
+
+* In `back` folder run `docker-compose up -d mysql-service`.
+* In `front` folder run `ng serve`.
+
+* localhost:4200
+
+* [Prove Skill](http://proveskill.com)
+
+
 ## SonarQube
+
+In `back` folder:
 
 * Execute `docker-compose up -d mysql-service sonarqube`, then verify localhost:9000.
 First login default is `user:admin`, `password:admin`. You'll need change password.
@@ -12,12 +24,6 @@ First login default is `user:admin`, `password:admin`. You'll need change passwo
 * Run `mvn clean verify sonar:sonar` to send data to SonarQube.
 
 You can see de reports in localhost:9000.
-
-## Configuration
-Just `docker-compose up -d`.
-
-* [Prove Skill](http://proveskill.com)
-
 
 ## Configuration
 You should have Docker compose, Maven and JDK 17 installed on your machine.
