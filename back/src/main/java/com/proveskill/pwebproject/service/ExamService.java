@@ -206,13 +206,14 @@ public class ExamService {
         Integer result = 0;
 
         for (Question question : exam.getQuestions()) {
-            Optional<ExamAnswer> examAnswer =
+            Optional<ExamAnswer> examAnswerOpt =
                     this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
-            if (examAnswer.isPresent()) {
-                if (!examAnswer.isEmpty()) {
-                    if (compareList(question.getAnswer(), examAnswer.get().getAnswer())) {
-                        result = result + 1;
-                    }
+
+            if (examAnswerOpt.isPresent()) {
+                ExamAnswer examAnswer = examAnswerOpt.get();
+
+                if (compareList(question.getAnswer(), examAnswer.getAnswer())) {
+                    result++;
                 }
             }
         }
