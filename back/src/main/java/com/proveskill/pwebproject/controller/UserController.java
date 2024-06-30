@@ -48,15 +48,4 @@ public class UserController {
         this.service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
-  // @PostMapping("/refresh-token")
-  // public void refreshToken(
-  //     HttpServletRequest request,
-  //     HttpServletResponse response
-  // ) throws IOException {
-  //   service.refreshToken(request, response);
-  // }
-
-
 }

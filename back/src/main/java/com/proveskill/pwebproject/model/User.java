@@ -55,10 +55,6 @@ public class User implements UserDetails {
     return school;
   }
 
-  // public void setId(Integer id) {
-  //   this.id = id;
-  // }
-
   public boolean getFirstAcess() {
     return firstAccess;
   }

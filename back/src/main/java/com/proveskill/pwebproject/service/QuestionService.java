@@ -89,15 +89,6 @@ public class QuestionService {
     }
 
     private Question formatQuestion(Question question) {
-        // if (question.getUser() == null) {
-        //     question.setUser(
-        //             User.builder()
-        //                     .name("ADMIN")
-        //                     .email("admin@proveskill.com")
-        //                     .role(Role.ADMIN)
-        //                     .build()
-        //     );
-        // }
         question.setUser(null);
         return question;
     }

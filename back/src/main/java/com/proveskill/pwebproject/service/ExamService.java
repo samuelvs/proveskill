@@ -61,7 +61,6 @@ public class ExamService {
                 examFound.setDuration(exam.getDuration());
                 examFound.setStartDateTime(exam.getStartDateTime());
                 examFound.setEndDateTime(exam.getEndDateTime());
-                // examFound.setQuestions(questionEntities);
 
                 return this.examRepository.save(examFound);
             }
