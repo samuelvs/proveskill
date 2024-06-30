@@ -79,7 +79,6 @@ public class QuestionService {
     }
 
     public List<Question> searchQuestions(String keyword) {
-        System.out.println(keyword);
         if (StringUtils.isEmpty(keyword)) {
             return questionRepository.findAll();
         } else {

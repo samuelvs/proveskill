@@ -191,7 +191,6 @@ public class ExamService {
                 if (!examAnswer.isEmpty()) {
                     if (compareList(question.getAnswer(), examAnswer.get().getAnswer())) {
                         result = result + 1;
-                        System.out.println(result);
                     }
                 }
             }

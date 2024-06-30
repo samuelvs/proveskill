@@ -33,7 +33,7 @@ public class SecurityApplication {
 				.password("admin")
 				.role(ADMIN)
 				.build();
-				System.out.println("Admin token: " + service.register(admin));
+				service.register(admin);
 			}
 		};
 	}
