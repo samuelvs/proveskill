@@ -2,15 +2,11 @@ package com.proveskill.pwebproject.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.proveskill.pwebproject.model.Question;
-import com.proveskill.pwebproject.model.User;
 import com.proveskill.pwebproject.repository.QuestionRepository;
 import com.proveskill.pwebproject.specification.QuestionSpecifications;
-import com.proveskill.pwebproject.user.Role;
 
 import io.micrometer.common.util.StringUtils;
 

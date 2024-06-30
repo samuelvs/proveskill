@@ -24,7 +24,7 @@ public class QuestionSpecifications {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(tagsJoin), "%" + searchLower + "%"));
 
                 Join<Question, String> alternativesJoin = root.join("alternatives", JoinType.INNER);
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(alternativesJoin), "%" + searchLower + "%"));;
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(alternativesJoin), "%" + searchLower + "%"));
 
                 Join<Question, String> answerJoin = root.join("answer", JoinType.INNER);
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(answerJoin), "%" + searchLower + "%"));

@@ -1,25 +1,9 @@
 package com.proveskill.pwebproject.service;
 
-import com.proveskill.pwebproject.auth.AuthenticationRequest;
-import com.proveskill.pwebproject.auth.AuthenticationResponse;
-import com.proveskill.pwebproject.auth.RegisterRequest;
-import com.proveskill.pwebproject.config.JwtService;
 import com.proveskill.pwebproject.model.User;
 import com.proveskill.pwebproject.repository.UserRepository;
-import com.proveskill.pwebproject.token.Token;
-import com.proveskill.pwebproject.token.TokenRepository;
-import com.proveskill.pwebproject.token.TokenType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +40,7 @@ public class UserService {
 				userFound.setFirstAccess(userDto.getFirstAcess() || true);
 				userFound.setRole(userDto.getRole());
 				User userSaved = this.repository.saveAndFlush(userFound);
-				userSaved.setPassword(null);;
+				userSaved.setPassword(null);
 				return userSaved;
 			} catch (Exception e) {
 				e.printStackTrace();
