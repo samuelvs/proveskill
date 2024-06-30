@@ -62,8 +62,10 @@ public class ExamController {
 
     @PutMapping(value = PathConstants.EXAMS + "/answer", produces = "application/json")
     public ResponseEntity<List<String>> answerExam(@RequestBody AnswerRequest request) throws Exception {
-        log.info("ExamController - answerExam: " + request.getStartedExamId() + " / Question: " + request.getQuestionId());
-        ExamAnswer examAnswer = this.examService.answerExam(request.getStartedExamId(), request.getQuestionId(), request.getAnswer());
+        log.info("ExamController - answerExam: " + request.getStartedExamId() + " / Question: "
+                + request.getQuestionId());
+        ExamAnswer examAnswer = this.examService.answerExam(request.getStartedExamId(), request.getQuestionId(),
+                request.getAnswer());
         return ResponseEntity.ok(examAnswer.getAnswer());
     }
 
@@ -74,13 +76,13 @@ public class ExamController {
         Integer userId = user.getId();
 
         log.info("ExamController - startExam: " + examId + " / User: " + user.getName() + " has started exam.");
-        
+
         StartedExam startedExam = this.examService.startExam(examId, userId);
         return ResponseEntity.ok(startedExam);
     }
 
     @GetMapping(value = PathConstants.EXAMS + "/started-exams", produces = "application/json")
-    public ResponseEntity<List<StartedExam>> startedExams() {        
+    public ResponseEntity<List<StartedExam>> startedExams() {
         List<StartedExam> startedExams = this.examService.findAllStartedExams();
         return ResponseEntity.ok(startedExams);
     }

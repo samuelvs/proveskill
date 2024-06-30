@@ -10,5 +10,4 @@ import com.proveskill.pwebproject.model.StartedExam;
 
 public interface ExamAnswerRepository extends JpaRepository<ExamAnswer, Integer> {
     Optional<ExamAnswer> findByStartedExamAndQuestion(StartedExam startedExam, Question question);
-
 }

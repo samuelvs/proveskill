@@ -26,23 +26,21 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.csrf()
+        .disable()
+        .authorizeHttpRequests()
+        .requestMatchers("/api/auth/**")
+        .permitAll()
+        .requestMatchers(GET, "/api/users").hasAnyRole(ADMIN.name(), TEACHER.name())
+        .anyRequest()
+        .authenticated()
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authenticationProvider(authenticationProvider)
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-    http
-    .csrf()
-    .disable()
-    .authorizeHttpRequests()
-    .requestMatchers("/api/auth/**")
-    .permitAll()
-    .requestMatchers(GET, "/api/users").hasAnyRole(ADMIN.name(), TEACHER.name())
-    .anyRequest()
-      .authenticated()
-    .and()
-      .sessionManagement()
-      .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-    .and()
-    .authenticationProvider(authenticationProvider)
-    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-    
     return http.build();
   }
 }

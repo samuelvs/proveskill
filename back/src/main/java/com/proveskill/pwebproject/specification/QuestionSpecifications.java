@@ -1,4 +1,5 @@
 package com.proveskill.pwebproject.specification;
+
 import org.springframework.data.jpa.domain.Specification;
 
 import com.proveskill.pwebproject.model.Question;
@@ -59,7 +60,7 @@ public class QuestionSpecifications {
         }
         return null;
     }
-    
+
     private static Integer parseType(String search) {
         String lowercaseSearch = search.toLowerCase();
         if ("aberta".contains(lowercaseSearch)) {

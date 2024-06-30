@@ -28,7 +28,8 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) {
-    String password = new Random().ints(10, 33, 122).mapToObj(i -> String.valueOf((char)i)).collect(Collectors.joining());
+    String password = new Random().ints(10, 33, 122).mapToObj(i -> String.valueOf((char) i))
+        .collect(Collectors.joining());
     var user = User.builder()
         .name(request.getName())
         .email(request.getEmail())
@@ -56,22 +57,20 @@ public class AuthenticationService {
         new UsernamePasswordAuthenticationToken(
             request.getEmail(),
             request.getPassword(),
-            new ArrayList<>()
-        )
-    );
+            new ArrayList<>()));
 
     var user = repository.findByEmail(request.getEmail())
         .orElseThrow();
-        
+
     var jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()
-            .token(jwtToken)
-            .name(user.getName())
-            .email(user.getEmail())
-            .school(user.getSchool())
-            .firstAccess(user.getFirstAcess())
-            .role(user.getRole())
-            .build();
+        .token(jwtToken)
+        .name(user.getName())
+        .email(user.getEmail())
+        .school(user.getSchool())
+        .firstAccess(user.getFirstAcess())
+        .role(user.getRole())
+        .build();
   }
 
   public AuthenticationRequest changePassword(AuthenticationRequest request) {
@@ -88,8 +87,9 @@ public class AuthenticationService {
 
   public AuthenticationRequest forgotPassword(ForgotPasswordRequest request) {
     var user = repository.findByEmail(request.getEmail()).orElseThrow();
-    
-    String password = new Random().ints(10, 33, 122).mapToObj(i -> String.valueOf((char)i)).collect(Collectors.joining());
+
+    String password = new Random().ints(10, 33, 122).mapToObj(i -> String.valueOf((char) i))
+        .collect(Collectors.joining());
     user.setPassword(passwordEncoder.encode(password));
     user.setFirstAccess(true);
 

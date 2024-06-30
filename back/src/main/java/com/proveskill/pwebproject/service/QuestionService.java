@@ -26,10 +26,9 @@ public class QuestionService {
 
     public Question create(Question question) throws Exception {
         try {
-            if(question.getId() != null) {
+            if (question.getId() != null) {
                 Question questionFound = this.questionRepository.findById(question.getId()).orElseThrow(
-                        () -> new Exception("QuestionServiceImpl - create/update: Question not found")
-                );
+                        () -> new Exception("QuestionServiceImpl - create/update: Question not found"));
                 questionFound.setAlternatives(question.getAlternatives());
                 questionFound.setAnswer(question.getAnswer());
                 questionFound.setLevel(question.getLevel());
@@ -52,7 +51,7 @@ public class QuestionService {
     public void delete(Integer id) {
         try {
             Optional<Question> questionEntity = this.questionRepository.findById(id);
-            if(questionEntity.isPresent()) {
+            if (questionEntity.isPresent()) {
                 this.questionRepository.delete(questionEntity.get());
             } else {
                 throw new Exception("QuestionServiceImpl - delete: Question not found");
@@ -70,8 +69,7 @@ public class QuestionService {
 
     public Question findById(Integer id) {
         return this.questionRepository.findById(id).map(this::formatQuestion).orElseThrow(
-                () -> new RuntimeException("QuestionServiceImpl - findById: Question not found")
-        );
+                () -> new RuntimeException("QuestionServiceImpl - findById: Question not found"));
     }
 
     public List<Question> searchQuestions(String keyword) {

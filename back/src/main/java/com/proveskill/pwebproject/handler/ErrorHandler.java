@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler({Exception.class, RuntimeException.class})
+    @ExceptionHandler({ Exception.class, RuntimeException.class })
     public ModelAndView handleError(HttpServletRequest request, Exception e) {
         ModelAndView mav = new ModelAndView("error");
         mav.addObject("message", e.getMessage());

@@ -22,7 +22,7 @@ public class Exam {
 
     @Column
     private String title;
-    
+
     @Column
     private Integer result;
 

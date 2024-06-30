@@ -30,11 +30,11 @@ public class ExamService {
 
     @Autowired
     public ExamService(
-        ExamRepository examRepository,
-        QuestionRepository questionRepository,
-        StartedExamRepository startedExamRepository,
-        ExamAnswerRepository examAnswerRepository,
-        UserRepository userRepository) {
+            ExamRepository examRepository,
+            QuestionRepository questionRepository,
+            StartedExamRepository startedExamRepository,
+            ExamAnswerRepository examAnswerRepository,
+            UserRepository userRepository) {
         this.examRepository = examRepository;
         this.questionRepository = questionRepository;
         this.startedExamRepository = startedExamRepository;
@@ -46,15 +46,13 @@ public class ExamService {
         try {
             List<Question> questionEntities = exam.getQuestions().stream().map(question -> {
                 return this.questionRepository.findById(question.getId()).orElseThrow(
-                        () -> new RuntimeException("ExamServiceImpl - create: Question not found")
-                );
+                        () -> new RuntimeException("ExamServiceImpl - create: Question not found"));
             }).toList();
             exam.setQuestions(questionEntities);
 
-            if(exam.getId() != null) {
+            if (exam.getId() != null) {
                 Exam examFound = this.examRepository.findById(exam.getId()).orElseThrow(
-                        () -> new Exception("ExamServiceImpl - create/update: Exam not found")
-                );
+                        () -> new Exception("ExamServiceImpl - create/update: Exam not found"));
 
                 examFound.setTitle(exam.getTitle());
                 examFound.setDuration(exam.getDuration());
@@ -73,7 +71,7 @@ public class ExamService {
     public void delete(Integer id) {
         try {
             Optional<Exam> examEntity = this.examRepository.findById(id);
-            if(examEntity.isPresent()) {
+            if (examEntity.isPresent()) {
                 this.examRepository.delete(examEntity.get());
             } else {
                 throw new Exception("ExamServiceImpl - delete: Exam not found");
@@ -91,16 +89,16 @@ public class ExamService {
 
     public Exam findById(Integer id) {
         return this.examRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("ExamServiceImpl - findById: Exam not found")
-        );
+                () -> new RuntimeException("ExamServiceImpl - findById: Exam not found"));
     }
 
     public StartedExam startExam(Integer examId, Integer userId) {
         Optional<User> user = this.userRepository.findById(userId);
         Optional<Exam> exam = this.examRepository.findById(examId);
 
-        Optional<StartedExam> startedExamEntityFound = this.startedExamRepository.findByExamAndUser(exam.get(), user.get());
-        if(startedExamEntityFound.isEmpty()) {
+        Optional<StartedExam> startedExamEntityFound = this.startedExamRepository.findByExamAndUser(exam.get(),
+                user.get());
+        if (startedExamEntityFound.isEmpty()) {
             StartedExam startedExamEntity = StartedExam.builder()
                     .exam(exam.get())
                     .user(user.get())
@@ -118,10 +116,10 @@ public class ExamService {
 
     public List<StartedExam> findAllStartedExams() {
         List<StartedExam> startedExams = this.startedExamRepository.findAll();
-        for(StartedExam started: startedExams) {
+        for (StartedExam started : startedExams) {
             started.setExam(this.fillQuestionsToExaList(started, started.getExam()));
         }
-        
+
         return startedExams;
     }
 
@@ -129,8 +127,9 @@ public class ExamService {
         Optional<Question> question = this.questionRepository.findById(questionId);
         Optional<StartedExam> startedExam = this.startedExamRepository.findById(startExamId);
 
-        Optional<ExamAnswer> examAnswerFound = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam.get(), question.get());
-        if(examAnswerFound.isEmpty()) {
+        Optional<ExamAnswer> examAnswerFound = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam.get(),
+                question.get());
+        if (examAnswerFound.isEmpty()) {
             ExamAnswer examAnswer = ExamAnswer.builder()
                     .startedExam(startedExam.get())
                     .question(question.get())
@@ -139,7 +138,7 @@ public class ExamService {
 
             return this.examAnswerRepository.save(examAnswer);
         }
-        
+
         ExamAnswer examAnswer = examAnswerFound.get();
         examAnswer.setAnswer(answer);
         return this.examAnswerRepository.save(examAnswer);
@@ -148,7 +147,8 @@ public class ExamService {
     public Exam fillQuestionsToStudentExam(StartedExam startedExam, Exam exam) {
         List<Question> questions = new ArrayList<>();
         for (Question question : exam.getQuestions()) {
-            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
+            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam,
+                    question);
             if (examAnswer.isEmpty()) {
                 question.setAnswer(null);
             } else {
@@ -168,7 +168,8 @@ public class ExamService {
     public Exam fillQuestionsToExaList(StartedExam startedExam, Exam exam) {
         List<Question> questions = new ArrayList<>();
         for (Question question : exam.getQuestions()) {
-            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
+            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam,
+                    question);
             question.setUserAnswer(examAnswer.get().getAnswer());
             questions.add(question);
         }
@@ -185,7 +186,8 @@ public class ExamService {
         Integer result = 0;
 
         for (Question question : exam.getQuestions()) {
-            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
+            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam,
+                    question);
             if (examAnswer.isPresent()) {
                 if (!examAnswer.isEmpty()) {
                     if (compareList(question.getAnswer(), examAnswer.get().getAnswer())) {
@@ -195,11 +197,10 @@ public class ExamService {
             }
         }
 
-        
         return result;
     }
 
-    public static boolean compareList(List ls1,List ls2){
-        return ls1.toString().contentEquals(ls2.toString())?true:false;
+    public static boolean compareList(List ls1, List ls2) {
+        return ls1.toString().contentEquals(ls2.toString()) ? true : false;
     }
 }

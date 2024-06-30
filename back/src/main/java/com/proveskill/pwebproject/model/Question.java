@@ -37,7 +37,7 @@ public class Question {
 
     @ElementCollection
     private List<String> answer;
-   
+
     @ElementCollection
     private List<String> userAnswer;
 

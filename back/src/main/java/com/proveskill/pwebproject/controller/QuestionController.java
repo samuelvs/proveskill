@@ -32,7 +32,6 @@ public class QuestionController {
         return ResponseEntity.ok(questions);
     }
 
-    
     @GetMapping(PathConstants.QUESTIONS + "/{id}")
     @Cacheable("questions")
     public ResponseEntity<Question> getQuestionById(@PathVariable("id") Integer id, Model model) {

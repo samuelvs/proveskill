@@ -23,29 +23,25 @@ public class AuthenticationController {
 
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(
-      @RequestBody RegisterRequest request
-  ) {
+      @RequestBody RegisterRequest request) {
     return ResponseEntity.ok(service.register(request));
   }
 
   @PostMapping("/authenticate")
   public ResponseEntity<AuthenticationResponse> authenticate(
-      @RequestBody AuthenticationRequest request
-  ) {
+      @RequestBody AuthenticationRequest request) {
     return ResponseEntity.ok(service.authenticate(request));
   }
 
   @PostMapping("/change-password")
   public ResponseEntity<AuthenticationRequest> changePassword(
-      @RequestBody AuthenticationRequest request
-  ) {
+      @RequestBody AuthenticationRequest request) {
     return ResponseEntity.ok(service.changePassword(request));
   }
 
   @PostMapping("/forgot-password")
   public ResponseEntity<AuthenticationRequest> forgotPassword(
-    @RequestBody ForgotPasswordRequest request
-  ) {
+      @RequestBody ForgotPasswordRequest request) {
     return ResponseEntity.ok(service.forgotPassword(request));
   }
 

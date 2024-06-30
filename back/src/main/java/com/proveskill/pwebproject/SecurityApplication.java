@@ -21,18 +21,17 @@ public class SecurityApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(
 			AuthenticationService service,
-			UserRepository repository
-	) {
+			UserRepository repository) {
 		return args -> {
 			var user = repository.findByEmail("admin@admin.com");
 			if (user.isEmpty()) {
 				var admin = RegisterRequest.builder()
-				.name("Admin")
-				.school("IFAL")
-				.email("admin@admin.com")
-				.password("admin")
-				.role(ADMIN)
-				.build();
+						.name("Admin")
+						.school("IFAL")
+						.email("admin@admin.com")
+						.password("admin")
+						.role(ADMIN)
+						.build();
 				service.register(admin);
 			}
 		};
