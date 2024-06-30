@@ -42,7 +42,8 @@ public class ExamController {
         return ResponseEntity.ok(exams);
     }
 
-    @PutMapping(value = PathConstants.EXAMS, consumes = "application/json", produces = "application/json")
+    @PutMapping(value = PathConstants.EXAMS, consumes = "application/json",
+            produces = "application/json")
     public ResponseEntity<Object> saveExam(@RequestBody @Valid Exam exam) throws Exception {
         Exam createdExam = this.examService.create(exam);
         return ResponseEntity.ok(createdExam);
@@ -61,11 +62,12 @@ public class ExamController {
     }
 
     @PutMapping(value = PathConstants.EXAMS + "/answer", produces = "application/json")
-    public ResponseEntity<List<String>> answerExam(@RequestBody AnswerRequest request) throws Exception {
+    public ResponseEntity<List<String>> answerExam(@RequestBody AnswerRequest request)
+            throws Exception {
         log.info("ExamController - answerExam: " + request.getStartedExamId() + " / Question: "
                 + request.getQuestionId());
-        ExamAnswer examAnswer = this.examService.answerExam(request.getStartedExamId(), request.getQuestionId(),
-                request.getAnswer());
+        ExamAnswer examAnswer = this.examService.answerExam(request.getStartedExamId(),
+                request.getQuestionId(), request.getAnswer());
         return ResponseEntity.ok(examAnswer.getAnswer());
     }
 
@@ -75,7 +77,8 @@ public class ExamController {
         User user = (User) auth.getPrincipal();
         Integer userId = user.getId();
 
-        log.info("ExamController - startExam: " + examId + " / User: " + user.getName() + " has started exam.");
+        log.info("ExamController - startExam: " + examId + " / User: " + user.getName()
+                + " has started exam.");
 
         StartedExam startedExam = this.examService.startExam(examId, userId);
         return ResponseEntity.ok(startedExam);

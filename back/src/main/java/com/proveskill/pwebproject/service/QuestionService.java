@@ -27,8 +27,9 @@ public class QuestionService {
     public Question create(Question question) throws Exception {
         try {
             if (question.getId() != null) {
-                Question questionFound = this.questionRepository.findById(question.getId()).orElseThrow(
-                        () -> new Exception("QuestionServiceImpl - create/update: Question not found"));
+                Question questionFound = this.questionRepository.findById(question.getId())
+                        .orElseThrow(() -> new Exception(
+                                "QuestionServiceImpl - create/update: Question not found"));
                 questionFound.setAlternatives(question.getAlternatives());
                 questionFound.setAnswer(question.getAnswer());
                 questionFound.setLevel(question.getLevel());
@@ -44,7 +45,8 @@ public class QuestionService {
             return this.questionRepository.save(question);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("QuestionServiceImpl - create: Error when create question: {}", e);
+            throw new RuntimeException(
+                    "QuestionServiceImpl - create: Error when create question: {}", e);
         }
     }
 
@@ -58,7 +60,8 @@ public class QuestionService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("QuestionServiceImpl - delete: Error when delete question: {}", e);
+            throw new RuntimeException(
+                    "QuestionServiceImpl - delete: Error when delete question: {}", e);
         }
     }
 

@@ -19,16 +19,20 @@ public class QuestionSpecifications {
             if (search != null && !search.isEmpty()) {
                 String searchLower = search.toLowerCase();
 
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + searchLower + "%"));
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),
+                        "%" + searchLower + "%"));
 
                 Join<Question, String> tagsJoin = root.join("tags", JoinType.INNER);
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(tagsJoin), "%" + searchLower + "%"));
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(tagsJoin),
+                        "%" + searchLower + "%"));
 
                 Join<Question, String> alternativesJoin = root.join("alternatives", JoinType.INNER);
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(alternativesJoin), "%" + searchLower + "%"));
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(alternativesJoin),
+                        "%" + searchLower + "%"));
 
                 Join<Question, String> answerJoin = root.join("answer", JoinType.INNER);
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(answerJoin), "%" + searchLower + "%"));
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(answerJoin),
+                        "%" + searchLower + "%"));
 
                 Integer level = parseLevel(searchLower);
                 if (level != null) {

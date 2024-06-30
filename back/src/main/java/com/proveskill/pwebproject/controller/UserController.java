@@ -37,7 +37,8 @@ public class UserController {
         return ResponseEntity.ok(this.service.findById(id));
     }
 
-    @PutMapping(value = PathConstants.USERS, consumes = "application/json", produces = "application/json")
+    @PutMapping(value = PathConstants.USERS, consumes = "application/json",
+            produces = "application/json")
     public ResponseEntity<User> saveUser(@RequestBody @Valid User userDto) throws Exception {
         User createdUser = this.service.update(userDto);
         return ResponseEntity.ok(createdUser);

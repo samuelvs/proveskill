@@ -14,9 +14,7 @@ class UserTest {
 
     @Test
     void testGetAuthorities() {
-        User user = User.builder()
-                .role(Role.ADMIN)
-                .build();
+        User user = User.builder().role(Role.ADMIN).build();
 
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         assertEquals(1, authorities.size());

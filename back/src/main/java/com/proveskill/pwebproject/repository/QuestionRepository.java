@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.proveskill.pwebproject.model.Question;
 
-public interface QuestionRepository extends JpaRepository<Question, Integer>, JpaSpecificationExecutor<Question> {
+public interface QuestionRepository
+        extends JpaRepository<Question, Integer>, JpaSpecificationExecutor<Question> {
 }
