@@ -1,7 +1,9 @@
 package com.proveskill.pwebproject.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.proveskill.pwebproject.model.Exam;
 import com.proveskill.pwebproject.model.ExamAnswer;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class ExamService {
 
@@ -29,11 +33,8 @@ public class ExamService {
     private final ExamAnswerRepository examAnswerRepository;
 
     @Autowired
-    public ExamService(
-            ExamRepository examRepository,
-            QuestionRepository questionRepository,
-            StartedExamRepository startedExamRepository,
-            ExamAnswerRepository examAnswerRepository,
+    public ExamService(ExamRepository examRepository, QuestionRepository questionRepository,
+            StartedExamRepository startedExamRepository, ExamAnswerRepository examAnswerRepository,
             UserRepository userRepository) {
         this.examRepository = examRepository;
         this.questionRepository = questionRepository;
@@ -93,20 +94,27 @@ public class ExamService {
     }
 
     public StartedExam startExam(Integer examId, Integer userId) {
-        Optional<User> user = this.userRepository.findById(userId);
-        Optional<Exam> exam = this.examRepository.findById(examId);
+        Optional<User> userOpt = this.userRepository.findById(userId);
+        Optional<Exam> examOpt = this.examRepository.findById(examId);
 
-        Optional<StartedExam> startedExamEntityFound = this.startedExamRepository.findByExamAndUser(exam.get(),
-                user.get());
+        if (userOpt.isEmpty()) {
+            throw new EntityNotFoundException("User not found with ID: " + userId);
+        }
+        if (examOpt.isEmpty()) {
+            throw new EntityNotFoundException("Exam not found with ID: " + examId);
+        }
+
+        User user = userOpt.get();
+        Exam exam = examOpt.get();
+
+        Optional<StartedExam> startedExamEntityFound =
+                this.startedExamRepository.findByExamAndUser(exam, user);
         if (startedExamEntityFound.isEmpty()) {
-            StartedExam startedExamEntity = StartedExam.builder()
-                    .exam(exam.get())
-                    .user(user.get())
-                    .startedAt(LocalDateTime.now())
-                    .build();
+            StartedExam startedExamEntity = StartedExam.builder().exam(exam).user(user)
+                    .startedAt(LocalDateTime.now()).build();
 
             this.startedExamRepository.save(startedExamEntity);
-            startedExamEntityFound = this.startedExamRepository.findByExamAndUser(exam.get(), user.get());
+            startedExamEntityFound = this.startedExamRepository.findByExamAndUser(exam, user);
         }
 
         StartedExam startedExam = startedExamEntityFound.get();
@@ -124,17 +132,26 @@ public class ExamService {
     }
 
     public ExamAnswer answerExam(Long startExamId, Integer questionId, List<String> answer) {
-        Optional<Question> question = this.questionRepository.findById(questionId);
-        Optional<StartedExam> startedExam = this.startedExamRepository.findById(startExamId);
+        Optional<Question> questionOpt = this.questionRepository.findById(questionId);
+        Optional<StartedExam> startedExamOpt = this.startedExamRepository.findById(startExamId);
 
-        Optional<ExamAnswer> examAnswerFound = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam.get(),
-                question.get());
+        if (questionOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Question not found with ID: " + questionId);
+        }
+        if (startedExamOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Started exam not found with ID: " + startExamId);
+        }
+
+        Question question = questionOpt.get();
+        StartedExam startedExam = startedExamOpt.get();
+
+        Optional<ExamAnswer> examAnswerFound =
+                this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
         if (examAnswerFound.isEmpty()) {
-            ExamAnswer examAnswer = ExamAnswer.builder()
-                    .startedExam(startedExam.get())
-                    .question(question.get())
-                    .answer(answer)
-                    .build();
+            ExamAnswer examAnswer = ExamAnswer.builder().startedExam(startedExam).question(question)
+                    .answer(answer).build();
 
             return this.examAnswerRepository.save(examAnswer);
         }
@@ -147,8 +164,8 @@ public class ExamService {
     public Exam fillQuestionsToStudentExam(StartedExam startedExam, Exam exam) {
         List<Question> questions = new ArrayList<>();
         for (Question question : exam.getQuestions()) {
-            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam,
-                    question);
+            Optional<ExamAnswer> examAnswer =
+                    this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
             if (examAnswer.isEmpty()) {
                 question.setAnswer(null);
             } else {
@@ -168,8 +185,8 @@ public class ExamService {
     public Exam fillQuestionsToExaList(StartedExam startedExam, Exam exam) {
         List<Question> questions = new ArrayList<>();
         for (Question question : exam.getQuestions()) {
-            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam,
-                    question);
+            Optional<ExamAnswer> examAnswer =
+                    this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
             question.setUserAnswer(examAnswer.get().getAnswer());
             questions.add(question);
         }
@@ -178,7 +195,8 @@ public class ExamService {
     }
 
     public Integer result(User user, Exam exam) {
-        Optional<StartedExam> startedExamFounded = this.startedExamRepository.findByExamAndUser(exam, user);
+        Optional<StartedExam> startedExamFounded =
+                this.startedExamRepository.findByExamAndUser(exam, user);
         if (!startedExamFounded.isPresent()) {
             return 0;
         }
@@ -186,8 +204,8 @@ public class ExamService {
         Integer result = 0;
 
         for (Question question : exam.getQuestions()) {
-            Optional<ExamAnswer> examAnswer = this.examAnswerRepository.findByStartedExamAndQuestion(startedExam,
-                    question);
+            Optional<ExamAnswer> examAnswer =
+                    this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
             if (examAnswer.isPresent()) {
                 if (!examAnswer.isEmpty()) {
                     if (compareList(question.getAnswer(), examAnswer.get().getAnswer())) {
