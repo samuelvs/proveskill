@@ -8,7 +8,6 @@ import com.proveskill.pwebproject.config.JwtService;
 import com.proveskill.pwebproject.model.User;
 import com.proveskill.pwebproject.repository.UserRepository;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class AuthenticationService {
         .role(request.getRole())
         .build();
 
-    var savedUser = repository.save(user);
+    repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()
         .token(jwtToken)
@@ -81,7 +80,7 @@ public class AuthenticationService {
     user.setPassword(passwordEncoder.encode(request.getPassword()));
     user.setFirstAccess(false);
 
-    var savedUser = repository.save(user);
+    repository.save(user);
     return AuthenticationRequest.builder()
         .email(user.getEmail())
         .password(request.getPassword())
@@ -95,7 +94,7 @@ public class AuthenticationService {
     user.setPassword(passwordEncoder.encode(password));
     user.setFirstAccess(true);
 
-    var savedUser = repository.save(user);
+    repository.save(user);
     return AuthenticationRequest.builder()
         .email(user.getEmail())
         .password(password)

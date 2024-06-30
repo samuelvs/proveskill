@@ -2,8 +2,6 @@ package com.proveskill.pwebproject.controller;
 
 import lombok.RequiredArgsConstructor;
 
-import java.io.IOException;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,9 +13,6 @@ import com.proveskill.pwebproject.auth.AuthenticationResponse;
 import com.proveskill.pwebproject.auth.ForgotPasswordRequest;
 import com.proveskill.pwebproject.auth.RegisterRequest;
 import com.proveskill.pwebproject.service.AuthenticationService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/auth")

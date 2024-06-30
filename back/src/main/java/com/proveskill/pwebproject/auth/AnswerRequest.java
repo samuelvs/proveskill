@@ -3,7 +3,6 @@ package com.proveskill.pwebproject.auth;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.proveskill.pwebproject.user.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
