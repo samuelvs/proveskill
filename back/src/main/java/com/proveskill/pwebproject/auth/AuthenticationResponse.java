@@ -29,8 +29,8 @@ public class AuthenticationResponse {
   @JsonProperty("school")
   private String school;
 
-  @JsonProperty("first_acsess")
-  private boolean first_access;
+  @JsonProperty("firstAccess")
+  private boolean firstAccess;
 
   @JsonProperty("role")
   private Role role;

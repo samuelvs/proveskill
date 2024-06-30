@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AnswerRequest {
 
-  @JsonProperty("started_exam_id")
-  private Long started_exam_id;
+  @JsonProperty("startedExamId")
+  private Long startedExamId;
 
-  @JsonProperty("question_id")
-  private Integer question_id;
+  @JsonProperty("questionId")
+  private Integer questionId;
 
   @JsonProperty("answer")
   private List<String> answer;

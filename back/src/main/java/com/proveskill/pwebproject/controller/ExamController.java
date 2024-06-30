@@ -62,8 +62,8 @@ public class ExamController {
 
     @PutMapping(value = PathConstants.EXAMS + "/answer", produces = "application/json")
     public ResponseEntity<List<String>> answerExam(@RequestBody AnswerRequest request) throws Exception {
-        log.info("ExamController - answerExam: " + request.getStarted_exam_id() + " / Question: " + request.getQuestion_id());
-        ExamAnswer examAnswer = this.examService.answerExam(request.getStarted_exam_id(), request.getQuestion_id(), request.getAnswer());
+        log.info("ExamController - answerExam: " + request.getStartedExamId() + " / Question: " + request.getQuestionId());
+        ExamAnswer examAnswer = this.examService.answerExam(request.getStartedExamId(), request.getQuestionId(), request.getAnswer());
         return ResponseEntity.ok(examAnswer.getAnswer());
     }
 

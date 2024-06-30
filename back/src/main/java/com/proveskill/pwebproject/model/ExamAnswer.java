@@ -18,11 +18,11 @@ public class ExamAnswer {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "started_exam_id", referencedColumnName = "id")
+    @JoinColumn(name = "startedExamId", referencedColumnName = "id")
     private StartedExam startedExam;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "question_id", referencedColumnName = "id")
+    @JoinColumn(name = "questionId", referencedColumnName = "id")
     private Question question;
 
     @ElementCollection

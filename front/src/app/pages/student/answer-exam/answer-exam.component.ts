@@ -110,8 +110,8 @@ export class AnswerExamComponent implements OnInit {
   answerQuestion(answer) {
     if(this.currentQuestion && answer.length > 0) {
       const data = {
-        started_exam_id: parseInt(this.startedExam.id),
-        question_id: this.currentQuestion?.id,
+        startedExamId: parseInt(this.startedExam.id),
+        questionId: this.currentQuestion?.id,
         answer: answer
       };
 

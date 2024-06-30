@@ -46,7 +46,7 @@ public class AuthenticationService {
         .email(user.getEmail())
         .password(password)
         .school(user.getSchool())
-        .first_access(user.getFirstAcess())
+        .firstAccess(user.getFirstAcess())
         .role(user.getRole())
         .build();
   }
@@ -69,7 +69,7 @@ public class AuthenticationService {
             .name(user.getName())
             .email(user.getEmail())
             .school(user.getSchool())
-            .first_access(user.getFirstAcess())
+            .firstAccess(user.getFirstAcess())
             .role(user.getRole())
             .build();
   }

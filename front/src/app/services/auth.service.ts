@@ -24,12 +24,12 @@ export class AuthService {
   signIn(email:string, password:string ) {
       return this.http.post(this.url + '/authenticate', {email, password})
               .subscribe((res: any) => {
-                localStorage.setItem('access_token', res.token);
+                localStorage.setItem('access_token', res.tokenValue);
                 localStorage.setItem('name', res.name);
                 localStorage.setItem('email', res.email);
                 localStorage.setItem('school', res.school);
                 localStorage.setItem('role', res.role);
-                localStorage.setItem('first_access', res.first_acsess);
+                localStorage.setItem('firstAccess', res.firstAccess);
 
                 switch (res?.role) {
                   case "ADMIN":
@@ -58,7 +58,7 @@ export class AuthService {
   changePassword(email:string, password:string ) {
       return this.http.post(this.url + '/change-password', {email, password})
               .subscribe((res: any) => {
-                localStorage.setItem('first_access', 'false');
+                localStorage.setItem('firstAccess', 'false');
               }, (rej) => {
                 this._snackBar.open(
                   `Houve algum erro, verifique as informações e tente novamente.`,
@@ -86,7 +86,7 @@ export class AuthService {
       email: localStorage.getItem('email'),
       school: localStorage.getItem('school'),
       role: localStorage.getItem('role'),
-      first_access: localStorage.getItem('first_access'),
+      firstAccess: localStorage.getItem('firstAccess'),
     }
     return user;
   }
