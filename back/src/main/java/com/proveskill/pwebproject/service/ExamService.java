@@ -45,10 +45,12 @@ public class ExamService {
 
     public Exam create(Exam exam) throws Exception {
         try {
-            List<Question> questionEntities = exam.getQuestions().stream().map(question -> {
-                return this.questionRepository.findById(question.getId()).orElseThrow(
-                        () -> new RuntimeException("ExamServiceImpl - create: Question not found"));
-            }).toList();
+            List<Question> questionEntities = exam
+                    .getQuestions().stream().map(
+                            question -> this.questionRepository.findById(question.getId())
+                                    .orElseThrow(() -> new RuntimeException(
+                                            "ExamServiceImpl - create: Question not found")))
+                    .toList();
             exam.setQuestions(questionEntities);
 
             if (exam.getId() != null) {
