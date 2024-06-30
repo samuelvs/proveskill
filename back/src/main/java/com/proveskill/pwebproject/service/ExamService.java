@@ -221,7 +221,7 @@ public class ExamService {
         return result;
     }
 
-    public static boolean compareList(List ls1, List ls2) {
-        return ls1.toString().contentEquals(ls2.toString()) ? true : false;
+    public static <T> boolean compareList(List<T> ls1, List<T> ls2) {
+        return ls1.toString().contentEquals(ls2.toString());
     }
 }
