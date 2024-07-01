@@ -43,45 +43,50 @@ public class ExamService {
         this.userRepository = userRepository;
     }
 
-    public Exam create(Exam exam) throws Exception {
+    public Exam create(Exam exam) {
         try {
-            List<Question> questionEntities = exam
-                    .getQuestions().stream().map(
-                            question -> this.questionRepository.findById(question.getId())
-                                    .orElseThrow(() -> new RuntimeException(
-                                            "ExamServiceImpl - create: Question not found")))
-                    .toList();
+            List<Question> questionEntities = getQuestionEntities(exam.getQuestions());
             exam.setQuestions(questionEntities);
 
             if (exam.getId() != null) {
-                Exam examFound = this.examRepository.findById(exam.getId()).orElseThrow(
-                        () -> new Exception("ExamServiceImpl - create/update: Exam not found"));
-
-                examFound.setTitle(exam.getTitle());
-                examFound.setDuration(exam.getDuration());
-                examFound.setStartDateTime(exam.getStartDateTime());
-                examFound.setEndDateTime(exam.getEndDateTime());
-
-                return this.examRepository.save(examFound);
+                return updateExistingExam(exam);
             }
 
             return this.examRepository.save(exam);
         } catch (Exception e) {
-            throw new RuntimeException("ExamServiceImpl - create: Error when create exam: {}", e);
+            throw new RuntimeException(String.format(
+                    "ExamService - create: Error when creating exam: %s", e.getMessage()), e);
         }
+    }
+
+    private List<Question> getQuestionEntities(List<Question> questions) {
+        return questions.stream()
+                .map(question -> this.questionRepository.findById(question.getId()).orElseThrow(
+                        () -> new RuntimeException("ExamService - create: Question not found")))
+                .toList();
+    }
+
+    private Exam updateExistingExam(Exam exam) throws Exception {
+        Exam examFound = this.examRepository.findById(exam.getId())
+                .orElseThrow(() -> new Exception("ExamService - create/update: Exam not found"));
+
+        examFound.setTitle(exam.getTitle());
+        examFound.setDuration(exam.getDuration());
+        examFound.setStartDateTime(exam.getStartDateTime());
+        examFound.setEndDateTime(exam.getEndDateTime());
+
+        return this.examRepository.save(examFound);
     }
 
     public void delete(Integer id) {
         try {
-            Optional<Exam> examEntity = this.examRepository.findById(id);
-            if (examEntity.isPresent()) {
-                this.examRepository.delete(examEntity.get());
-            } else {
-                throw new Exception("ExamServiceImpl - delete: Exam not found");
-            }
+            this.examRepository.findById(id)
+                    .ifPresentOrElse(exam -> this.examRepository.delete(exam), () -> {
+                        throw new RuntimeException("ExamService - delete: Exam not found");
+                    });
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("ExamServiceImpl - delete: Error when delete exam: {}", e);
+            throw new RuntimeException(String.format(
+                    "ExamService - delete: Error when deleting exam: %s", e.getMessage()), e);
         }
     }
 
@@ -151,17 +156,17 @@ public class ExamService {
 
         Optional<ExamAnswer> examAnswerFound =
                 this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
-        if (examAnswerFound.isEmpty()) {
+
+        return examAnswerFound.map(examAnswer -> {
+            examAnswer.setAnswer(answer);
+            return this.examAnswerRepository.save(examAnswer);
+        }).orElseGet(() -> {
             ExamAnswer examAnswer = ExamAnswer.builder().startedExam(startedExam).question(question)
                     .answer(answer).build();
-
             return this.examAnswerRepository.save(examAnswer);
-        }
-
-        ExamAnswer examAnswer = examAnswerFound.get();
-        examAnswer.setAnswer(answer);
-        return this.examAnswerRepository.save(examAnswer);
+        });
     }
+
 
     public Exam fillQuestionsToStudentExam(StartedExam startedExam, Exam exam) {
         List<Question> questions = new ArrayList<>();
@@ -197,24 +202,21 @@ public class ExamService {
     }
 
     public Integer result(User user, Exam exam) {
-        Optional<StartedExam> startedExamFounded =
-                this.startedExamRepository.findByExamAndUser(exam, user);
-        if (!startedExamFounded.isPresent()) {
+        StartedExam startedExam =
+                this.startedExamRepository.findByExamAndUser(exam, user).orElse(null);
+
+        if (startedExam == null) {
             return 0;
         }
-        StartedExam startedExam = startedExamFounded.get();
-        Integer result = 0;
+
+        int result = 0;
 
         for (Question question : exam.getQuestions()) {
-            Optional<ExamAnswer> examAnswerOpt =
-                    this.examAnswerRepository.findByStartedExamAndQuestion(startedExam, question);
+            ExamAnswer examAnswer = this.examAnswerRepository
+                    .findByStartedExamAndQuestion(startedExam, question).orElse(null);
 
-            if (examAnswerOpt.isPresent()) {
-                ExamAnswer examAnswer = examAnswerOpt.get();
-
-                if (compareList(question.getAnswer(), examAnswer.getAnswer())) {
-                    result++;
-                }
+            if (examAnswer != null && compareList(question.getAnswer(), examAnswer.getAnswer())) {
+                result++;
             }
         }
 
