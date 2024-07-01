@@ -88,8 +88,7 @@ class QuestionServiceTest {
             questionService.delete(nonExistingId);
         });
 
-        assertEquals("QuestionServiceImpl - delete: Error when delete question: {}",
-                exception.getMessage());
+        assertEquals("QuestionServiceImpl - delete: Question not found", exception.getMessage());
     }
 
     @Test

@@ -51,15 +51,14 @@ public class QuestionService {
     }
 
     public void delete(Integer id) {
+        Optional<Question> questionEntity = this.questionRepository.findById(id);
+        if (!questionEntity.isPresent()) {
+            throw new RuntimeException("QuestionServiceImpl - delete: Question not found");
+        }
+
         try {
-            Optional<Question> questionEntity = this.questionRepository.findById(id);
-            if (questionEntity.isPresent()) {
-                this.questionRepository.delete(questionEntity.get());
-            } else {
-                throw new Exception("QuestionServiceImpl - delete: Question not found");
-            }
+            this.questionRepository.delete(questionEntity.get());
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(
                     "QuestionServiceImpl - delete: Error when delete question: {}", e);
         }
