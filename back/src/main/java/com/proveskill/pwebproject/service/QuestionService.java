@@ -24,11 +24,11 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
 
-    public Question create(Question question) throws Exception {
+    public Question create(Question question) {
         try {
             if (question.getId() != null) {
                 Question questionFound = this.questionRepository.findById(question.getId())
-                        .orElseThrow(() -> new Exception(
+                        .orElseThrow(() -> new RuntimeException(
                                 "QuestionServiceImpl - create/update: Question not found"));
                 questionFound.setAlternatives(question.getAlternatives());
                 questionFound.setAnswer(question.getAnswer());
